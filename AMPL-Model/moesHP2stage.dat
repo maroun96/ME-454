@@ -17,6 +17,6 @@ param IC_HP2stage default 0;
 let IC_HP2stage := ((1+interest)^N_HP2stage - 1)/(interest*(interest+1)^N_HP2stage);
 
 #Annualization Factor already included
-let cinv1['HP2stage'] := 3.11e+04*IC_HP2stage ;				#  [CHF]
+let cinv1['HP2stage'] := 6.34e+04*IC_HP2stage ;				#  [CHF]
 
-let cinv2['HP2stage'] := 258.2*IC_HP2stage;			# continious investment cost [CHF/kW]
+let cinv2['HP2stage'] := 527*IC_HP2stage;			# continious investment cost [CHF/kW]
