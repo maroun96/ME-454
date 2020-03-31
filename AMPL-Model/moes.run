@@ -64,7 +64,7 @@ model moesHP2stage.mod;
 data moesHP2stage.dat;
 
 #When HP1Stage included costs = 0
-/*model moesHP1stageLT.mod;
+model moesHP1stageLT.mod;
 data moesHP1stageLT.dat;
 
 model moesHP1stageMT.mod;
