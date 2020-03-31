@@ -21,8 +21,6 @@ let cinv1['PV'] := 0;
 let cinv2['PV'] := 1100*IC_PV*1000;			# continious investment cost [CHF/kWp]
                                         # EUR 1100/KWp
                                         # multiply reference size
-let cinv2['PV'] := 33*IC_PV;			# continious investment cost [CHF/kWp]
-                                     # EUR 33/KWp
-                                      # multiply reference size
-let cop2t['Boiler'] := 33;			# continuous operating cost [CHF/kW]
-                                            # EUR 33/KWp
+let cop2t['PV'] := 33*1000/365/24;			# variable cost of the technology [CHF/h]
+                                        # EUR 33/KWp.year
+let cop1t['PV'] := 0;							# fixed cost of the technology [CHF/h]
