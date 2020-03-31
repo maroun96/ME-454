@@ -25,3 +25,5 @@ let cop2t['PV'] := 33*1000/365/24;			# variable cost of the technology [CHF/h]
                                         # EUR 33/KWp.year
                                         # multiply reference size
 let cop1t['PV'] := 0;							      # fixed cost of the technology [CHF/h]
+
+#data from EU PV Status Report 2019 P51
