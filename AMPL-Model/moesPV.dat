@@ -19,5 +19,6 @@ let IC_PV := ((1+interest)^N_PV - 1)/(interest*(interest+1)^N_PV);
 let cinv1['PV'] := 1100000*IC_PV;			#  [CHF]
                                         # EUR 1100/KWp
                                         # Fmax['PV'] 1000*1KWp
-let cinv2['PV'] := 33*IC_PV;			# continious investment cost [CHF/kWp]
-                                # EUR 33/KWp
+let cinv2['PV'] := 33*IC_PV*1000;			# continious investment cost [CHF/kWp]
+                                     # EUR 33/KWp
+                                      # multiply reference size
