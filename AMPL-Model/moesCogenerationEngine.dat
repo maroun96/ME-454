@@ -24,6 +24,6 @@ let IC_Cogen := interest*(interest+1)^N_Cogen/((interest+1)^N_Cogen-1);
 #https://www.energy.gov/sites/prod/files/2016/09/f33/CHP-Recip%20Engines.pdf
 let cinv1['Cogen'] := 1326.37*IC_Cogen;			#  [CHF]
 
-let cinv2['Cogen'] := 1585.88*IC_Cogen;			# continious investment cost [CHF/kW]
+let cinv2['Cogen'] := 1585.88*IC_Cogen*refSize;			# continious investment cost [CHF/kW]
 
 #let cinv2['Cogen'] := 2.20*IC;			# continious investment cost [CHF/kW]
