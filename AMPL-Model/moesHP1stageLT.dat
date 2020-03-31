@@ -13,7 +13,7 @@ let  Flowin['Electricity','HP1stageLT'] := refSize;
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-param N_HPLT default 15;
+param N_HPLT default 20;
 param IC_HPLT default 0;
 
 let IC_HPLT := interest*(interest+1)^N_HPLT/((interest+1)^N_HPLT-1);
