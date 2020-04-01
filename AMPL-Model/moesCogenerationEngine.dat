@@ -20,10 +20,12 @@ param N_Cogen default 20;
 param IC_Cogen default 0;
 
 let IC_Cogen := interest*(interest+1)^N_Cogen/((interest+1)^N_Cogen-1);
-
+#https://www.ge.com/content/dam/gepower-pgdp/global/en_US/documents/technical/ger/ger-3430g-cogeneration-application-considerations.pdf
 #https://www.energy.gov/sites/prod/files/2016/09/f33/CHP-Recip%20Engines.pdf
 let cinv1['Cogen'] := 1326.37*IC_Cogen;			#  [CHF]
 
-let cinv2['Cogen'] := 1585.88*IC_Cogen*refSize;			# continious investment cost [CHF/kW]
+let cinv2['Cogen'] :=957.41*IC_Cogen*refSize;
+
+#let cinv2['Cogen']=1585.88*IC_Cogen*refSize;			# continious investment cost [CHF/kW]
 
 #let cinv2['Cogen'] := 2.20*IC;			# continious investment cost [CHF/kW]
