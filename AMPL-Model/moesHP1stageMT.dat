@@ -13,11 +13,11 @@ let  Flowin['Electricity','HP1stageMT'] := refSize;
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-param N_HPMT default 15;
+param N_HPMT default 20;
 param IC_HPMT default 0;
 
 let IC_HPMT := interest*(IC_HPMT+1)^N_HPMT/((interest+1)^N_HPMT-1);
 
 let cinv1['HP1stageMT'] := 26635.96*IC_HPMT;				#  [CHF]
 
-let cinv2['HP1stageMT'] := 53.3408*IC_HPMT;			# continious investment cost [CHF/kW]
+let cinv2['HP1stageMT'] := 53.3408*refSize*IC_HPMT;			# continious investment cost [CHF/kW]
