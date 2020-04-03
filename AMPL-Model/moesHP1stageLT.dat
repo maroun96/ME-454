@@ -17,10 +17,10 @@ for{t in Time}{
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-param N_HPLT default 20;
+param years_HPLT default 20;
 param IC_HPLT default 0;
 
-let IC_HPLT := interest*(interest+1)^N_HPLT/((interest+1)^N_HPLT-1);
+let IC_HPLT := interest*(interest+1)^years_HPLT/((interest+1)^years_HPLT-1);
 
 let cinv1['HP1stageLT'] := 38359.89*IC_HPLT;				#  [CHF]
 
