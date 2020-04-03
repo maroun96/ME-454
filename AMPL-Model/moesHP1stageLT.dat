@@ -22,6 +22,6 @@ param IC_HPLT default 0;
 
 let IC_HPLT := interest*(interest+1)^years_HPLT/((interest+1)^years_HPLT-1);
 
-let cinv1['HP1stageLT'] := IC_HPLT * 1.4028e+04;				#  [CHF]
+let cinv1['HP1stageLT'] := 0.98 * IC_HPLT * 1.4028e+04;				#  [CHF]
 
-let cinv2['HP1stageLT'] := IC_HPLT * 310.0724 * 275.7520;			# continious investment cost [CHF/kW]
+let cinv2['HP1stageLT'] := 0.98 * IC_HPLT * 310.0724 * 275.7520;			# continious investment cost [CHF/kW]
