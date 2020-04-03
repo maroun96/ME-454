@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Set the maximum scaling factor
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-let  Fmax['Cogen'] := refSize;
+let  Fmax['Cogen'] := 5;
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Set the minimum temperature of the boiler
@@ -10,9 +10,7 @@ let Tminheating['Cogen'] := 70;
 
 /*Set the reference size of electricity flow (will be scaled with mult_t)
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-#let  Flowout['Electricity','Cogen'] := refSize;
-#let  Flowin['Natgas','Cogen'] := refSize;
-#let Qheatingsupply['Cogen']:=330;
+
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
@@ -20,12 +18,11 @@ param N_Cogen default 20;
 param IC_Cogen default 0;
 
 let IC_Cogen := interest*(interest+1)^N_Cogen/((interest+1)^N_Cogen-1);
-#https://www.ge.com/content/dam/gepower-pgdp/global/en_US/documents/technical/ger/ger-3430g-cogeneration-application-considerations.pdf
-#https://www.energy.gov/sites/prod/files/2016/09/f33/CHP-Recip%20Engines.pdf
-let cinv1['Cogen'] := 1326.37*IC_Cogen;			#  [CHF]
+#https://ec.europa.eu/energy/sites/ener/files/documents/Article%2014_1EEDGermanyEN.pdf
+#page 27
 
-let cinv2['Cogen'] :=957.41*IC_Cogen*refSize;
+let cinv1['Cogen'] := 3.5098e+05*IC_Cogen;			#  [CHF/year]
 
-#let cinv2['Cogen']=1585.88*IC_Cogen*refSize;			# continious investment cost [CHF/kW]
+let cinv2['Cogen'] :=725.5099*IC_Cogen*Elec_Cogen;   #[CHF/year]
 
-#let cinv2['Cogen'] := 2.20*IC;			# continious investment cost [CHF/kW]
+
