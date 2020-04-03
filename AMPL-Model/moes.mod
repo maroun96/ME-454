@@ -87,7 +87,7 @@ param Qheatingsupply{UtilitiesOfType['Heating']} default 1000;
 # reference flow of the resources (elec, natgas etc) [kW] [m3/s] [kg/s]
 param Flowin{l in Layers,u in UtilitiesOfLayer[l]} default 0;
 param Flowout{l in Layers,u in UtilitiesOfLayer[l]} default 0;
-param Flowin_hp{l in {"Electricity"}, u in {"HP1stageLT", "HP1stageMT"}, t in Time} default 0;
+param Flowin_hp{l in Layers, u in {"HP1stageLT", "HP1stageMT"}, t in Time} default 0;
 
 # minimum and maximum scaling factors of the utilities
 param Fmin{Utilities} default 0.001;
