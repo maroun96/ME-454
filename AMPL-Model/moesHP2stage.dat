@@ -1,12 +1,12 @@
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Set the maximum scaling factor
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-let Fmax['HP2stage'] := refSize;
+let Fmax['HP2stage'] := 10;
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Set the minimum temperature of the Two-Stage Heat Pump
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-let Tminheating ['HP2stage'] := 70;
+let Tminheating ['HP2stage'] := 65;
 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
@@ -17,6 +17,6 @@ param IC_HP2stage default 0;
 let IC_HP2stage := ((1+interest)^N_HP2stage - 1)/(interest*(interest+1)^N_HP2stage);
 
 #Annualization Factor already included
-let cinv1['HP2stage'] := 6.34e+04*IC_HP2stage*0.9 ;				#  [CHF]
+let cinv1['HP2stage'] := 3.69e+04*IC_HP2stage*0.9 ;				#  [CHF]
 
-let cinv2['HP2stage'] := 527*IC_HP2stage*refSize*0.9;			# continious investment cost [CHF/kW]
+let cinv2['HP2stage'] := 5.91e+02*IC_HP2stage*0.9;			# continious investment cost [CHF/kW]
