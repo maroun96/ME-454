@@ -7,9 +7,9 @@ param T_heatingmax_HP2stage := 65+273; #Maximum heating temperature is at 65C
 param T_sink_HP2stage := T_heatingmax_HP2stage + dTmin;
 
 #COP
-param COP_HP2stage{t in Time}:= (eff_Carnot*T_sink_HP2stage/(T_sink_HP2stage - T_source[t]));
+param COP_HP2stage=6;
+
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Set flow rate of Electriciy as a function of the COP
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-subject to HP2stage_elec{t in Time}:
-	Flowin['Electricity','HP2stage']  * mult_t['HP2stage',t] = Qheatingsupply['HP2stage'] * mult_t['HP2stage',t] / COP_HP2stage[t];
+let Flowin['Electricity','HP2stage'] := Qheatingsupply['HP2stage'] / COP_HP2stage;
