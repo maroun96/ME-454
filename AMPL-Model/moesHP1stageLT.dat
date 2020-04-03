@@ -11,7 +11,7 @@ Set main function
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 param N_HPLT default 20;
 for{t in Time}{
-	let Flowin_hp["Electricity", "HP1stgeLT", t] := Qheatingsupply["HP1stageLT"] / COP_HP1stageLT[t];
+	let Flowin_hp["Electricity", "HP1stageLT", t] := Qheatingsupply["HP1stageLT"] / COP_HP1stageLT[t];
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
