@@ -10,5 +10,5 @@ param COP_HP1stageLT{t in Time}:= (eff_Carnot*T_sinkLT/(T_sinkLT - T_source[t]))
 Set flow rate of electricity as a function of HP
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 for{t in Time}{
-	let Flowin_hp["Electricity", "HP1stgeLT", t] := Qheating["HP1stageLT"] / COP_HP1stageLT[t];
+	let Flowin_hp["Electricity", "HP1stgeLT", t] := Qheatingsupply["HP1stageLT"] / COP_HP1stageLT[t];
 }
