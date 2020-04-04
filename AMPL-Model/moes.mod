@@ -43,6 +43,9 @@ param T_lake{Time};
 param T_source{t in Time} := T_lake[t] - dTmin;
 param interest default 0.08;									# interest rate
 param eff_Carnot default 0.55;									# Carnot efficiency
+
+param I_2018 default 603.1;										#Cost Index 2018
+param I_2001 default 394.3;										#Cost Index 2001
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Calculation of heating demand
 ---------------------------------------------------------------------------------------------------------------------------------------*/
