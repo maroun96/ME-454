@@ -43,6 +43,8 @@ var Text_new{t in Time} >= Text[t]; # air Temperature after air-air HEX;
 var Trelease{Time}  >= 0; #[degC]
 var Qheating{Time} 	>= 0; #your heat demand from the MILP part, will become a variable in the case of heat recovery from air ventilation
 
+#DIYA - Should we use 3.1 or 3.2 HP? 
+
 var E{Time} 		>= 0; # [kW] electricity consumed by the reference heat pump (using pre-heated lake water)
 var TLMCond 	 	>= 0.001; #[K] logarithmic mean temperature in the condensor of the heating HP (using pre-heated lake water)
 var TLMEvap 		>= 0.001; # K] logarithmic mean temperature in the evaporator of the heating HP (using pre-heated lake water)
@@ -109,7 +111,7 @@ subject to overallHeatTransfer{b in MediumTempBuildings}: # Uenv calculation for
 subject to VariableHeatdemand {t in Time} : #Heat demand calculated as the sum of all buildings -> medium temperature
 	
 
-subject to Heat_Vent1 {t in Time}: #HEX heat load from one side;
+subject to Heat_Vent1 {t in Time}: #HEX heat load from one side; 		#DIYA-Not sure what this means?
 
 
 subject to Heat_Vent2 {t in Time}: #HEX heat load from the other side;
@@ -178,7 +180,7 @@ subject to temperature_gap4{t in Time}: # relation between TLMCond_2 and TLMEvap
  subject to QEvaporator_2{t in Time}: #Evaporator heat from air side
 
 
-subject to QCondensator_2{t in Time}: #Condeser heat from air side
+subject to QCondensator_2{t in Time}: #Condenser heat from air side
 	
 
 subject to Electricity_2{t in Time}: #the electricity consumed in the new HP can be computed using the heat delivered and the heat extracted
