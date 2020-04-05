@@ -60,7 +60,7 @@ var TLMEvapHP 		>= 0.001; #[K] logarithmic mean temperature in the evaporator of
 
 var TEvap 			>= 0.001; #[degC]
 var Heat_Vent{Time} >= 0; #[kW]
-var DTLNVent{Time} 	>= 0.001; #[degC]
+var DTLNVent{Time} 	>= 0.001; #[degC] #Tim-Logarithmic mean of Delta Temperature ?
 var Area_Vent 		>= 0.001; #[m2]
 var DTminVent 		>= 2; #[degC]
 
@@ -71,7 +71,7 @@ var Uenv{Buildings} >= 0; # overall heat transfer coefficient of the building en
 
 ## Variables and parameters Air-Air HP
 
-param Cref_hp				:= 3400;
+param Cref_hp				:= 3400; #Tim- Cost linked to Air Air HP ? Units ? Aref ? Which components ? (compressor?valve?HEX?)
 param beta_hp				:= 0.85;
 param BM_hp					:= 2;
 param MS2000				:= 400;
@@ -139,12 +139,12 @@ subject to DTminVent2 {t in Time}: #DTmin needed on the other side of HEX
 subject to Flows{t in Time}: #MCp of EPFL heating fluid calculation.
 	
 
-## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION
+## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION  #Tim-Why do we have lines for reference case as it seems it is unrelated to 3.4
 
 subject to QEvaporator{t in Time}: #water side of evaporator that takes flow from Free cooling HEX
 
 
-subject to QCondensator{t in Time}: #water side of evaporator that takes flow from Free cooling HEX
+subject to QCondensator{t in Time}: #water side of evaporator that takes flow from Free cooling HEX #Tim-Condensor instead of evaporator in the comment ? 
 	
 
 subject to Electricity{t in Time}: #the electricity consumed in the HP can be computed using the heat delivered and the heat extracted (Reference case)
@@ -153,7 +153,7 @@ subject to Electricity{t in Time}: #the electricity consumed in the HP can be co
 subject to Electricity_1{t in Time}: #the electricity consumed in the HP can be computed using the heat delivered and the COP (Reference case)
 
 
-subject to COPerformance{t in Time}: #the COP can be computed using the carnot efficiency and the logarithmic mean temperatures in the condensor and in the evaporator
+subject to COPerformance{t in Time}: #the COP can be computed using the carnot efficiency and the logarithmic mean temperatures in the condensor and in the evaporator #Tim-for reference case ? 
 
 
 subject to dTLMCondensor{t in Time}: #the logarithmic mean temperature on the condenser, using inlet and outlet temperatures. Note: should be in K (Reference case)
@@ -174,10 +174,10 @@ subject to temperature_gap2{t in Time}: #relation between Trelease and Trelease2
 subject to temperature_gap3{t in Time}: # relation between Tair_in and Text_new;
 
 
-subject to temperature_gap4{t in Time}: # relation between TLMCond_2 and TLMEvapHP_2;
+subject to temperature_gap4{t in Time}: # relation between TLMCond_2 and TLMEvapHP_2; #Tim-What relation ? 
 
 
- subject to QEvaporator_2{t in Time}: #Evaporator heat from air side
+subject to QEvaporator_2{t in Time}: #Evaporator heat from air side
 
 
 subject to QCondensator_2{t in Time}: #Condenser heat from air side
