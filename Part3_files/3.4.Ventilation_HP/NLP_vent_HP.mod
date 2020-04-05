@@ -18,14 +18,14 @@ param mair 				:= 2.5; # m3/m2/h
 param Cpair 			:= 1.152; # kJ/m3K
 param Uvent 			:= 0.025; # air-air HEX
 
-param EPFLMediumT 		:= 65; #[degC]
-param EPFLMediumOut 	:= 30; 
+param EPFLMediumT 		:= 65; #[degC]			
+param EPFLMediumOut 	:= 30; 					
 
 param CarnotEff 		:= 0.55; #assumption: carnot efficiency of heating heat pumps
 param Cel 				:= 0.20; #[CHF/kWh] operating cost for buying electricity from the grid
 
-param THPhighin 		:= 7; #[deg C] temperature of water coming from lake into the evaporator of the HP
-param THPhighout 		:= 3; #[deg C] temperature of water coming from lake into the evaporator of the HP
+param THPhighin 		:= 7; #[deg C] temperature of water coming from lake into the evaporator of the HP 		
+param THPhighout 		:= 3; #[deg C] temperature of water coming from lake into the evaporator of the HP			
 param Cpwater           := 4.18; #[kJ/kgC]
 
 param i 				:= 0.06 ; #interest rate
@@ -43,6 +43,8 @@ var Text_new{t in Time} >= Text[t]; # air Temperature after air-air HEX;
 var Trelease{Time}  >= 0; #[degC]
 var Qheating{Time} 	>= 0; #your heat demand from the MILP part, will become a variable in the case of heat recovery from air ventilation
 
+#DIYA - Should we use 3.1 or 3.2 HP? 
+
 var E{Time} 		>= 0; # [kW] electricity consumed by the reference heat pump (using pre-heated lake water)
 var TLMCond 	 	>= 0.001; #[K] logarithmic mean temperature in the condensor of the heating HP (using pre-heated lake water)
 var TLMEvap 		>= 0.001; # K] logarithmic mean temperature in the evaporator of the heating HP (using pre-heated lake water)
@@ -54,7 +56,7 @@ var OPEX 			>= 0.001; #[CHF/year] operating cost
 var CAPEX 			>= 0.001; #[CHF/year] annualized investment cost
 var TC 				>= 0.001; #[CHF/year] total cost
 
-var TLMEvapHP 		>= 0.001; #[K] logarithmic mean temperature in the evaporator of the heating HP (not using pre-heated lake water
+var TLMEvapHP 		>= 0.001; #[K] logarithmic mean temperature in the evaporator of the heating HP (not using pre-heated lake water)
 
 var TEvap 			>= 0.001; #[degC]
 var Heat_Vent{Time} >= 0; #[kW]
@@ -109,7 +111,7 @@ subject to overallHeatTransfer{b in MediumTempBuildings}: # Uenv calculation for
 subject to VariableHeatdemand {t in Time} : #Heat demand calculated as the sum of all buildings -> medium temperature
 	
 
-subject to Heat_Vent1 {t in Time}: #HEX heat load from one side;
+subject to Heat_Vent1 {t in Time}: #HEX heat load from one side; 		#DIYA-Not sure what this means?
 
 
 subject to Heat_Vent2 {t in Time}: #HEX heat load from the other side;
@@ -178,7 +180,7 @@ subject to temperature_gap4{t in Time}: # relation between TLMCond_2 and TLMEvap
  subject to QEvaporator_2{t in Time}: #Evaporator heat from air side
 
 
-subject to QCondensator_2{t in Time}: #Condeser heat from air side
+subject to QCondensator_2{t in Time}: #Condenser heat from air side
 	
 
 subject to Electricity_2{t in Time}: #the electricity consumed in the new HP can be computed using the heat delivered and the heat extracted
