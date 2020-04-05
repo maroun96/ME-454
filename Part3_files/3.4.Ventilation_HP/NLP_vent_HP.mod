@@ -18,14 +18,14 @@ param mair 				:= 2.5; # m3/m2/h
 param Cpair 			:= 1.152; # kJ/m3K
 param Uvent 			:= 0.025; # air-air HEX
 
-param EPFLMediumT 		:= 65; #[degC]
-param EPFLMediumOut 	:= 30; 
+param EPFLMediumT 		:= 65; #[degC]			
+param EPFLMediumOut 	:= 30; 					
 
 param CarnotEff 		:= 0.55; #assumption: carnot efficiency of heating heat pumps
 param Cel 				:= 0.20; #[CHF/kWh] operating cost for buying electricity from the grid
 
-param THPhighin 		:= 7; #[deg C] temperature of water coming from lake into the evaporator of the HP
-param THPhighout 		:= 3; #[deg C] temperature of water coming from lake into the evaporator of the HP
+param THPhighin 		:= 7; #[deg C] temperature of water coming from lake into the evaporator of the HP 		
+param THPhighout 		:= 3; #[deg C] temperature of water coming from lake into the evaporator of the HP			
 param Cpwater           := 4.18; #[kJ/kgC]
 
 param i 				:= 0.06 ; #interest rate
@@ -54,7 +54,7 @@ var OPEX 			>= 0.001; #[CHF/year] operating cost
 var CAPEX 			>= 0.001; #[CHF/year] annualized investment cost
 var TC 				>= 0.001; #[CHF/year] total cost
 
-var TLMEvapHP 		>= 0.001; #[K] logarithmic mean temperature in the evaporator of the heating HP (not using pre-heated lake water
+var TLMEvapHP 		>= 0.001; #[K] logarithmic mean temperature in the evaporator of the heating HP (not using pre-heated lake water)
 
 var TEvap 			>= 0.001; #[degC]
 var Heat_Vent{Time} >= 0; #[kW]
