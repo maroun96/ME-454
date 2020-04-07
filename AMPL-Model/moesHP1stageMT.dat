@@ -17,9 +17,10 @@ Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 param years_HPMT default 20;
 param IC_HPMT default 0;
+param F_BMHPMT := 4;
 
 let IC_HPMT := interest*(IC_HPMT+1)^years_HPMT/((interest+1)^years_HPMT-1);
 
-let cinv1['HP1stageMT'] := 0.98 * IC_HPMT * 1.9230e+04;				#  [CHF]
+let cinv1['HP1stageMT'] := 0.98 * IC_HPMT * 1.9230e+04 * F_BMHPMT * (I_2018/I_2001);				#  [CHF]
 
-let cinv2['HP1stageMT'] := 0.98 * IC_HPMT * 293.1891 * 343.1697;			# continious investment cost [CHF/kW]
+let cinv2['HP1stageMT'] := 0.98 * IC_HPMT * 293.1891 * 343.1697 * F_BMHPMT * (I_2018/I_2001);			# continious investment cost [CHF/kW]
