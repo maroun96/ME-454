@@ -16,13 +16,14 @@ Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 param N_Cogen default 20;
 param IC_Cogen default 0;
+param Fbm_Cogen=3.17; #https://www.researchgate.net/figure/Bare-module-factor-of-various-components-in-the-solar-fuel-plant_tbl1_329840552
 
 let IC_Cogen := interest*(interest+1)^N_Cogen/((interest+1)^N_Cogen-1);
 #https://ec.europa.eu/energy/sites/ener/files/documents/Article%2014_1EEDGermanyEN.pdf
 #page 27
 
-let cinv1['Cogen'] := 3.5098e+05*IC_Cogen;			#  [CHF/year]
+let cinv1['Cogen'] := 3.5098e+05*IC_Cogen*Fbm_Cogen*(I_2018/I_2014);			#  [CHF/year]
 
-let cinv2['Cogen'] :=725.5099*IC_Cogen*Elec_Cogen;   #[CHF/year]
+let cinv2['Cogen'] :=725.5099*IC_Cogen*Elec_Cogen*Fbm_Cogen*(I_2018/I_2014);   #[CHF/year]
 
 
