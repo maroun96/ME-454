@@ -21,6 +21,6 @@ param IC_Boiler default 0;
 
 let IC_Boiler := interest*(interest+1)^N_Boiler/((interest+1)^N_Boiler-1);
 
-let cop2t['Boiler'] := 2.91*IC_Boiler;			# continuous operating cost [CHF/h]
+let cop2t['Boiler'] := 2.91*IC_Boiler*(I_2019/I_2010);			# continuous operating cost [CHF/h]
 
-let cinv2['Boiler'] := 77720*IC_Boiler;		# continuous investment cost [CHF/year]
+let cinv2['Boiler'] := 77720*IC_Boiler*(I_2019/I_2010);		# continuous investment cost [CHF/year]

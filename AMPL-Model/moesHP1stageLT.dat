@@ -23,6 +23,6 @@ param F_BMHPLT := 4;
 
 let IC_HPLT := interest*(interest+1)^years_HPLT/((interest+1)^years_HPLT-1);
 
-let cinv1['HP1stageLT'] := 0.98 * IC_HPLT * 1.4028e+04 * F_BMHPLT * (I_2018/I_2001);				#  [CHF]
+let cinv1['HP1stageLT'] := 0.98 * IC_HPLT * 1.4028e+04 * F_BMHPLT * (I_2019/I_2001);				#  [CHF]
 
-let cinv2['HP1stageLT'] := 0.98 * IC_HPLT * 310.0724 * 275.7520 * F_BMHPLT * (I_2018/I_2001);			# continious investment cost [CHF/kW]
+let cinv2['HP1stageLT'] := 0.98 * IC_HPLT * 310.0724 * 275.7520 * F_BMHPLT * (I_2019/I_2001);			# continious investment cost [CHF/kW]
