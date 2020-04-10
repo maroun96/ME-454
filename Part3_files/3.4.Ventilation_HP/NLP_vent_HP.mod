@@ -139,14 +139,18 @@ subject to DTminVent2 {t in Time}: #DTmin needed on the other side of HEX
 ## MASS BALANCE
 
 #CHECK
-subject to Flows{t in Time}: #MCp of EPFL heating fluid calculation.
+subject to Flows_1{t in Time}: #MCp of EPFL heating fluid calculation.
 		MassEPFL[t] = Qheating[t]/(EPFLMediumT - EPFLMediumOut);
 
-## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION  #Tim-Why do we have lines for reference case as it seems it is unrelated to 3.4
+subject to Flows_2{t in Time}: #MCp of EPFL heating fluid calculation.
+		Flow[t] = Qevap[t]/(THPhighin-THPhighout);	
+		
+		
+## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION 
 
 #CHECK - Mass flow of Lake water? 
 subject to QEvaporator{t in Time}: #water side of evaporator that takes flow from Free cooling HEX
-		Qevap[t] = Cpwater*(THPhighin-THPhighout);						
+		Qevap[t] = Flow[t]*Cpwater*(THPhighin-THPhighout);						
 
 subject to QCondensator{t in Time}: #water side of evaporator that takes flow from Free cooling HEX #Tim-Condensor instead of evaporator in the comment ? 
 		Qcond[t] = MassEPFL[t]*(EPFLMediumT-EPFLMediumOut);
@@ -227,7 +231,7 @@ subject to Costs_HP {t in Time}: # new HP cost
 
 #CHECK
 subject to QEPFLausanne{t in Time}: #the heat demand of EPFL should be met;
-		Qcond[t] >= Qheating[t];
+		Qcond[t] = Qheating[t];
 
 subject to OPEXcost: #the operating cost can be computed using the electricity consumed in the two heat pumps
 		OPEX = sum{t in Time}  Cel*(E[t]+E_2[t]);

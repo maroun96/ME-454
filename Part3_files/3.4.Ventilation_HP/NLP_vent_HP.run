@@ -59,6 +59,10 @@ display Area_Vent;
 display Qheating;
 display Heat_Vent;
 display Trelease;
+#display Uenv; OK
+display DTLNVent;
+display DTminVent;
+
 
 
 display E;
