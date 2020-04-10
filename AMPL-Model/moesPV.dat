@@ -14,7 +14,7 @@ Set cost parameter
 param N_PV default 20;
 param IC_PV default 0;
 
-let IC_PV := ((1+interest)^N_PV - 1)/(interest*(interest+1)^N_PV);
+let IC_PV := interest*(interest+1)^N_PV/((interest+1)^N_PV-1);
 
 let cinv1['PV'] := 0;		
 

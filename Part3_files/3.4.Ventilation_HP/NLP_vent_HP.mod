@@ -235,5 +235,4 @@ subject to TCost: #the total cost can be computed using the operating and invest
 		TC = OPEX + CAPEX;
 
 ################################
-#CHECK- Why do we minimize OPEX in the given code
-minimize obj : TC;
+minimize obj : TC; #CHECK- Why do we minimize OPEX in the given code

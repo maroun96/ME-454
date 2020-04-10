@@ -123,5 +123,8 @@ display OpCost;
 
 display use;
 
-display COP_HP1stageLT;
-display COP_HP1stageMT;
+display Fmax;
+display Fmin;
+display Qheatingsupply;
+display cinv1;
+display cinv2;
