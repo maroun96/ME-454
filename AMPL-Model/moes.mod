@@ -47,7 +47,8 @@ param eff_Carnot default 0.55;									# Carnot efficiency
 param I_2019 default 607.5;										#Cost Index 2019
 param I_2018 default 603.1;										#Cost Index 2018
 param I_2014 default 576.1;										#Cost Index 2014 https://www.chemengonline.com/economic-indicators-cepci/?printmode=1
-param I_2009 default 550.8;										#Cost Index 2014
+param I_2010 default 550.8;										#Cost Index 2010
+param I_2009 default 550.8;										#Cost Index 2009
 param I_2001 default 394.3;										#Cost Index 2001
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Calculation of heating demand
