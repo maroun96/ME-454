@@ -43,8 +43,6 @@ var Text_new{t in Time} >= Text[t]; # air Temperature after air-air HEX;
 var Trelease{Time}  >= 0; #[degC]
 var Qheating{Time} 	>= 0; #your heat demand from the MILP part, will become a variable in the case of heat recovery from air ventilation
 
-#DIYA - Should we use 3.1 or 3.2 HP? 
-
 var E{Time} 		>= 0; # [kW] electricity consumed by the reference heat pump (using pre-heated lake water)
 var TLMCond 	 	>= 0.001; #[K] logarithmic mean temperature in the condensor of the heating HP (using pre-heated lake water)
 var TLMEvap 		>= 0.001; # K] logarithmic mean temperature in the evaporator of the heating HP (using pre-heated lake water)
@@ -108,6 +106,7 @@ param specQ_people{Buildings} default 0;# specific average internal gains from p
 subject to overallHeatTransfer{b in MediumTempBuildings}: # Uenv calculation for each building based on k_th and mass of air used
 		Uenv[b] = k_th[b]-mair/3600*Cpair;
 
+#CHECK
 subject to VariableHeatdemand {t in Time} : #Heat demand calculated as the sum of all buildings -> medium temperature
 		if Text[t] < 16  then
 			Qheating[t] = sum{b in MediumTempBuildings} : max(FloorArea[b]*(k_th[b]*(Tint-Text[t]) - k_sun[b]*irradiation[t]-specQ_people[b] - share_q_e*specElec[b,t]),0)
@@ -115,13 +114,13 @@ subject to VariableHeatdemand {t in Time} : #Heat demand calculated as the sum o
 			Qheating[t] = 0
 ;
 
-#CHECK
 subject to Heat_Vent1 {t in Time}: #HEX heat load from one side; 		#DIYA-Not sure what this means?
 		Heat_Vent[t] = mair*Cpair/3600*(Text_new[t]-T_ext)	;
 
 subject to Heat_Vent2 {t in Time}: #HEX heat load from the other side;
 		Heat_Vent[t]=mair*Cpair/3600*(Tint-Trelease[t]);
 
+#CHECK - SAME MCp, parallel lines
 subject to DTLNVent1 {t in Time}: #DTLN ventilation -> pay attention to this value: why is it special?
 		DTLNVent[t] = ((Text_new[t]-Tint)-(Text[t]-Trelease[t]))/(ln(Text_new[t]-Tint)-ln(Text[t]-Trelease[t]));
 
@@ -143,11 +142,11 @@ subject to DTminVent2 {t in Time}: #DTmin needed on the other side of HEX
 
 #CHECK
 subject to Flows{t in Time}: #MCp of EPFL heating fluid calculation.
-	
+		MassEPFL[t] = Qheating[t]/(EPFLMediumT - EPFLMediumOut);
 
 ## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION  #Tim-Why do we have lines for reference case as it seems it is unrelated to 3.4
 
-#CHECK
+#CHECK - Mass flow of Lake water? 
 subject to QEvaporator{t in Time}: #water side of evaporator that takes flow from Free cooling HEX
 		Qevap[t] = Cpwater*(THPhighin-THPhighout);						
 
@@ -163,7 +162,7 @@ subject to Electricity_1{t in Time}: #the electricity consumed in the HP can be 
 subject to COPerformance{t in Time}: #the COP can be computed using the carnot efficiency and the logarithmic mean temperatures in the condensor and in the evaporator  
 		COP[t] = Carnot_Eff*TLMCond[t]/(TLMCond[t]-TLMEvap[t]);
 
-#CHECK
+#CHECK- Why not defined as vectors
 subject to dTLMCondensor{t in Time}: #the logarithmic mean temperature on the condenser, using inlet and outlet temperatures. Note: should be in K (Reference case)
 		TLMCond[t] = (EPFLMediumT-EPFLMediumOut)/ln(EPFLMediumT/EPFLMediumOut);
 
@@ -173,19 +172,20 @@ subject to dTLMEvaporatorHP{t in Time}: #the logarithmic mean temperature can be
 
 ## Air Air HP
 
+#Is it normal to have redundant constraints?
 subject to temperature_gap{t in Time}: #relation between Text and Text_new;
 		Text_new[t] = Text[t] + HeatVent[t]/(mair/3600*Cpair);
 
 subject to temperature_gap2{t in Time}: #relation between Trelease and Trelease2;
-		Trelease[t] = Trelease2[t] + Qevap_2/(mair/3600*Cpair);
+		Trelease[t] = Trelease2[t] + Qevap_2[t]/(mair/3600*Cpair);
 
 subject to temperature_gap3{t in Time}: # relation between Tair_in and Text_new;
-		Tair_in [t] = Text_new[t] + Qcond_2/(mair/3600*Cpair);
+		Tair_in [t] = Text_new[t] + Qcond_2[t]/(mair/3600*Cpair);
 
+#CHECK - Why do we have this condition?
 subject to temperature_gap4{t in Time}: # relation between TLMCond_2 and TLMEvapHP_2; 
 		TLMCond_2[t] + 5 <= TLMEvapHP_2[t];
 
-#CHECK
 subject to QEvaporator_2{t in Time}: #Evaporator heat from air side
 		Qevap_2[t] = mair/3600*Cpair*(Trelease[t] - Trelease2[t]);
 
@@ -201,7 +201,6 @@ subject to Electricity_3{t in Time}: #the electricity consumed in the new HP can
 subject to COPerformance_2{t in Time}: #the COP can be computed using the carnot efficiency and the logarithmic mean temperatures in the condensor and in the evaporator
 		COP_2[t] = Carnot_Eff*TLMCond_2[t]/(TLMCond_2[t]-TLMEvapHP_2[t]);
 
-#CHECK
 subject to dTLMCondensor_2{t in Time}: #the logarithmic mean temperature in the new condenser. Note: should be in K
 		TLMCond_2[t] = (Tair_in[t]-Text_new[t])/ln(Tair_in[t]/Text_new[t]);
 
@@ -242,4 +241,5 @@ subject to TCost: #the total cost can be computed using the operating and invest
 		TC = OPEX + CAPEX;
 
 ################################
+#CHECK- Why do we minimize OPEX in the given code
 minimize obj : TC;
