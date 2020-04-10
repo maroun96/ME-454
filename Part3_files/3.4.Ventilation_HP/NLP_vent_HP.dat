@@ -10,12 +10,12 @@ param irradiation :=													# irradiation at each time step ATTENTION --> [
 ;
 
 param Text := 															# external temperature [C]
-1 0.15
-2 6.62
-3 10.99
-4 12.56
-5 16.0
-6 -9
+1 273.3
+2 279.77
+3 284.14
+4 285.71
+5 289.15
+6 264.15
 ;
 
 param top :=															# operating time of each time step

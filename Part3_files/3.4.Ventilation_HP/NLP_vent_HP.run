@@ -4,8 +4,34 @@ Load the main model and its data
 reset;
 model NLP_vent_HP.mod;
 data  NLP_vent_HP.dat;
-include Buildings_data/b1.dat;
-include Buildings_data/b2.dat;
+
+/*---------------------------------------------------------------------------------------------------------------------------------------
+Load building data
+---------------------------------------------------------------------------------------------------------------------------------------*/
+data Buildings_data/moesbBC.dat;
+data Buildings_data/moesbCO.dat;
+data Buildings_data/moesbBP.dat;
+data Buildings_data/moesbBS.dat;
+data Buildings_data/moesbTCV.dat;
+data Buildings_data/moesbIN.dat;
+data Buildings_data/moesbGC.dat;
+data Buildings_data/moesbCE.dat;
+data Buildings_data/moesbODY.dat;
+data Buildings_data/moesbMA.dat;
+data Buildings_data/moesbGR.dat;
+data Buildings_data/moesbME.dat;
+data Buildings_data/moesbCM.dat;
+data Buildings_data/moesbAA.dat;
+data Buildings_data/moesbBI.dat;
+data Buildings_data/moesbEL.dat;
+data Buildings_data/moesbPO.dat;
+data Buildings_data/moesbCRPP.dat;
+data Buildings_data/moesbMX.dat;
+data Buildings_data/moesbBM.dat;
+data Buildings_data/moesbCH.dat;
+data Buildings_data/moesbDIA.dat;
+data Buildings_data/moesbPH.dat;
+data Buildings_data/moesbAI.dat;
 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
