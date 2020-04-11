@@ -97,6 +97,7 @@ HPDatacenter
 HPWaste
 ElecGridBuy
 ElecGridSell
+Boiler
 ;
 
 set UtilitiesOfLayer[Natgas] :=

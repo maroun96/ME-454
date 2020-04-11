@@ -42,13 +42,13 @@ param bHE 				:= 0.6; #HE cost parameter
 
 var Text_new{t in Time} 	>= Text[t]; #[degC]
 var Trelease{Time}	>= 0+273.15; #[degC]
-var Qheating{Time} 	>= 0; #your heat demand from the MILP part, is now a variable.
+var Qheating{Time} 	>= 0;     # your heat demand from the MILP part, is now a variable.
 
-var E{Time} 		>= 0; # [kW] electricity consumed by the heat pump (using pre-heated lake water)
+var E{Time} 		>= 0;     # [kW] electricity consumed by the heat pump (using pre-heated lake water)
 var TLMCond 	 	>= 0.001; #[K] logarithmic mean temperature in the condensor of the heating HP (using pre-heated lake water)
 var TLMEvap 		>= 0.001; # K] logarithmic mean temperature in the evaporator of the heating HP (using pre-heated lake water)
-var Qevap{Time} 	>= 0; #[kW] heat extracted in the evaporator of the heating HP (using pre-heated lake water)
-var Qcond{Time} 	>= 0; #[kW] heat delivered in the condensor of the heating HP (using pre-heated lake water)
+var Qevap{Time} 	>= 0;     # [kW] heat extracted in the evaporator of the heating HP (using pre-heated lake water)
+var Qcond{Time} 	>= 0;     # [kW] heat delivered in the condensor of the heating HP (using pre-heated lake water)
 var COP{Time} 		>= 0.001; #coefficient of performance of the heating HP (using pre-heated lake water)
 
 var OPEX 			>= 0.001; #[CHF/year] operating cost
