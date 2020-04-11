@@ -128,7 +128,7 @@ subject to dTLMEvaporator{t in Time}: #the logarithmic mean temperature can be c
 TLMEvapHP{t}
 
 subject to QEPFLausanne{t in Time}: #the heat demand of EPFL should be the sum of the heat delivered by the 2 systems;
-
+Qheating{t} = Qrad{t} + Qcond{t} ;
 
 ## COSTS and OBJECTIVE
 subject to OPEXcost: #the operating cost can be computed using the electricity consumed in the HP
