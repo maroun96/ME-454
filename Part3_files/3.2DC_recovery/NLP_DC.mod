@@ -113,19 +113,19 @@ subject to HeatBalanceDC{t in Time}: #makes sure all HeatDC is removed;
 		
 
 subject to Electricity1{t in Time}: #the electricity consumed in the HP can be computed using the heat delivered and the heat extracted
-
+E{t} = Qcond{t} - Qevap{t};
 
 subject to Electricity{t in Time}: #the electricity consumed in the HP can be computed using the heat delivered and the COP
-
+E{t} = Qcond{t} / COP{t};
 
 subject to COPerformance{t in Time}: #the COP can be computed using the carnot efficiency and the logarithmic mean temperatures in the condensor and in the evaporator
-
+COP{t} = CarnotEff * TLMCond{t} /(TLMCond{t} - TLMEvapHP{t});
 
 subject to dTLMCondensor{t in Time}: #the logarithmic mean temperature on the condenser, using inlet and outlet temperatures. Note: should be in K
-
+TLMCond{t}
 
 subject to dTLMEvaporator{t in Time}: #the logarithmic mean temperature can be computed using the inlet and outlet temperatures, Note: should be in K
-
+TLMEvapHP{t}
 
 subject to QEPFLausanne{t in Time}: #the heat demand of EPFL should be the sum of the heat delivered by the 2 systems;
 
