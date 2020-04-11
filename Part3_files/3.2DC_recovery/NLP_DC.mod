@@ -86,7 +86,7 @@ MassEPFL{Time} = Qevap{Time} / (THPin{Time} - THPhighout);
 
 ## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION
 subject to dTLMDataCenter {t in Time}: #the logarithmic mean temperature difference in the heat recovery HE can be computed
-
+dTLMDC{Time}  = ((TDCout{Time}-EPFLMediumOut)-(TDCin-TRadin{Time}))/log((TDCout{Time}-EPFLMediumOut)/(TDCin-TRadin{Time}));
 
 subject to HeatBalance1{t in Time}: #Heat balance in DC HEX from DC side
 
