@@ -66,21 +66,23 @@ var MassEPFL{Time} 	>= 0.001; # MCp of EPFL heating system [KJ/(s degC)]
 ## TEMPERATURE CONTROL CONSTRAINS exist to be sure the temperatures in the HEX do not cross, meaning to make sure there is a certain DTmin. (3 are recommended, but you can have more or less)
 subject to Tcontrol1{t in Time}: 
 TDCout{Time} <= TDCin;
-TDCout{Time} >= Tret;
-TDCout{Time} >= EPFLMediumOut;
-TDCout{Time} >= THPin{Time};
 
 subject to Tcontrol2 {t in Time}:
-THPin{Time} >= THPhighout;
+TDCout{Time} >= Tret;
 
 subject to Tcontrol3 {t in Time}:
+TDCout{Time} >= EPFLMediumOut;
 
+subject to Tcontrol4 {t in Time}:
+TDCout{Time} >= THPin{Time};
+
+subject to Tcontrol5 {t in Time}:
+THPin{Time} >= THPhighout;
 	 
-
 ## MASS BALANCE
 
 subject to McpEPFL{t in Time}: #MCp of EPFL heating fluid calculation.
-
+MassEPFL{Time} = Qevap{Time} / (THPin{Time} - THPhighout);
 
 ## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION
 subject to dTLMDataCenter {t in Time}: #the logarithmic mean temperature difference in the heat recovery HE can be computed
