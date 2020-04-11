@@ -65,37 +65,37 @@ var MassEPFL{Time} 	>= 0.001; # MCp of EPFL heating system [KJ/(s degC)]
 
 ## TEMPERATURE CONTROL CONSTRAINS exist to be sure the temperatures in the HEX do not cross, meaning to make sure there is a certain DTmin. (3 are recommended, but you can have more or less)
 subject to Tcontrol1{t in Time}: 
-TDCout{Time} <= TDCin;
+TDCout{t} <= TDCin;
 
 subject to Tcontrol2 {t in Time}:
-TDCout{Time} >= Tret;
+TDCout{t} >= Tret;
 
 subject to Tcontrol3 {t in Time}:
-TDCout{Time} >= EPFLMediumOut;
+TDCout{t} >= EPFLMediumOut;
 
 subject to Tcontrol4 {t in Time}:
-TDCout{Time} >= THPin{Time};
+TDCout{t} >= THPin{Time};
 
 subject to Tcontrol5 {t in Time}:
-THPin{Time} >= THPhighout;
+THPin{t} >= THPhighout;
 	 
 ## MASS BALANCE
 
 subject to McpEPFL{t in Time}: #MCp of EPFL heating fluid calculation.
-MassEPFL{Time} = Qevap{Time} / (THPin{Time} - THPhighout);
+MassEPFL{t} = Qevap{t} / (THPin{t} - THPhighout);
 
 ## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION
 subject to dTLMDataCenter {t in Time}: #the logarithmic mean temperature difference in the heat recovery HE can be computed
-dTLMDC{Time}  = ((TDCout{Time}-EPFLMediumOut)-(TDCin-TRadin{Time}))/log((TDCout{Time}-EPFLMediumOut)/(TDCin-TRadin{Time}));
+dTLMDC{t}  = ((TDCout{t}-EPFLMediumOut)-(TDCin-TRadin{t}))/log((TDCout{t}-EPFLMediumOut)/(TDCin-TRadin{t}));
 
 subject to HeatBalance1{t in Time}: #Heat balance in DC HEX from DC side
-
+Qrad{t} = MassDC * (TDCin - TDCout{t});
 
 subject to HeatBalance2{t in Time}: # Heat balance from the other side of DC HEX
-
+Qrad{t} = 
 
 subject to AreaHEDC{t in Time}: #the area of the heat recovery HE can be computed using the heat extracted from DC, the heat transfer coefficient and the logarithmic mean temperature difference 
-
+Qrad{t} = UDC * AHEDC * dTLMDC{t};
 
 subject to Freecooling1{t in Time}: #Free cooling from one side
 
