@@ -110,7 +110,7 @@ subject to QCondensator{t in Time}: #EPFL side of condenser delivering heat to E
 Qcond{t} = MassEPFL{t} * (EPFLMediumT - TRadin{t});
 
 subject to HeatBalanceDC{t in Time}: #makes sure all HeatDC is removed;
-		
+HeatDC = Qrad{t} + Qfree{t};
 
 subject to Electricity1{t in Time}: #the electricity consumed in the HP can be computed using the heat delivered and the heat extracted
 E{t} = Qcond{t} - Qevap{t};
@@ -122,10 +122,10 @@ subject to COPerformance{t in Time}: #the COP can be computed using the carnot e
 COP{t} = CarnotEff * TLMCond{t} /(TLMCond{t} - TLMEvapHP{t});
 
 subject to dTLMCondensor{t in Time}: #the logarithmic mean temperature on the condenser, using inlet and outlet temperatures. Note: should be in K
-TLMCond{t}
+TLMCond{t} = (EPFLMediumT - TRadin{t})/log(EPFLMediumT/TRadin{t});
 
 subject to dTLMEvaporator{t in Time}: #the logarithmic mean temperature can be computed using the inlet and outlet temperatures, Note: should be in K
-TLMEvapHP{t}
+TLMEvapHP{t} = (THPin{t} - THPhighout)/log(THPin{t}/THPhighout);
 
 subject to QEPFLausanne{t in Time}: #the heat demand of EPFL should be the sum of the heat delivered by the 2 systems;
 Qheating{t} = Qrad{t} + Qcond{t} ;
