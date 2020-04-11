@@ -74,7 +74,7 @@ subject to Tcontrol3 {t in Time}:
 TDCout{t} >= EPFLMediumOut;
 
 subject to Tcontrol4 {t in Time}:
-TDCout{t} >= THPin{Time};
+TDCout{t} >= THPin{t};
 
 subject to Tcontrol5 {t in Time}:
 THPin{t} >= THPhighout;
@@ -82,7 +82,7 @@ THPin{t} >= THPhighout;
 ## MASS BALANCE
 
 subject to McpEPFL{t in Time}: #MCp of EPFL heating fluid calculation.
-MassEPFL{t} = Qevap{t} / (THPin{t} - THPhighout);
+MassEPFL{t} = Qheating{t} / (EPFLMediumT - EPFLMediumOut);
 
 ## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION
 subject to dTLMDataCenter {t in Time}: #the logarithmic mean temperature difference in the heat recovery HE can be computed
@@ -92,22 +92,22 @@ subject to HeatBalance1{t in Time}: #Heat balance in DC HEX from DC side
 Qrad{t} = MassDC * (TDCin - TDCout{t});
 
 subject to HeatBalance2{t in Time}: # Heat balance from the other side of DC HEX
-Qrad{t} = 
+Qrad{t} = MassEPFL{t} * (TRadin{t} - EPFLMediumOut);
 
 subject to AreaHEDC{t in Time}: #the area of the heat recovery HE can be computed using the heat extracted from DC, the heat transfer coefficient and the logarithmic mean temperature difference 
 Qrad{t} = UDC * AHEDC * dTLMDC{t};
 
 subject to Freecooling1{t in Time}: #Free cooling from one side
-
+Qfree{t} = MassDC * (TDCout{t} - Tret);
 
 subject to Freecooling2{t in Time}: #Free cooling from the other side
-
+Qfree{t} = Flow{t} * Cpwater * (THPin{t} - THPhighin);
 
 subject to QEvaporator{t in Time}: #water side of evaporator that takes flow from Free cooling HEX
-
+Qevap{t} = Flow{t} * Cpwater * (THPin{t} - THPhighout);
 
 subject to QCondensator{t in Time}: #EPFL side of condenser delivering heat to EFPL
-	
+Qcond{t} = MassEPFL{t} * (EPFLMediumT - TRadin{t});
 
 subject to HeatBalanceDC{t in Time}: #makes sure all HeatDC is removed;
 		
