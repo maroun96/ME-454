@@ -82,7 +82,7 @@ THPin[t] >= THPhighout;
 ## MASS BALANCE
 
 subject to McpEPFL{t in Time}: #MCp of EPFL heating fluid calculation.
-MassEPFL[t] = Qheating[t] / (EPFLMediumT - EPFLMediumOut) / Cpwater;
+MassEPFL[t] = Qheating[t] / (EPFLMediumT - EPFLMediumOut) ;
 
 ## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION
 subject to dTLMDataCenter {t in Time}: #the logarithmic mean temperature difference in the heat recovery HE can be computed
@@ -92,7 +92,7 @@ subject to HeatBalance1{t in Time}: #Heat balance in DC HEX from DC side
 Qrad[t] = MassDC * (TDCin - TDCout[t]);
 
 subject to HeatBalance2{t in Time}: # Heat balance from the other side of DC HEX
-Qrad[t] = MassEPFL[t] * Cpwater * (TRadin[t] - EPFLMediumOut);
+Qrad[t] = MassEPFL[t]  * (TRadin[t] - EPFLMediumOut);
 
 subject to AreaHEDC{t in Time}: #the area of the heat recovery HE can be computed using the heat extracted from DC, the heat transfer coefficient and the logarithmic mean temperature difference 
 Qrad[t] = UDC * AHEDC * dTLMDC[t];
