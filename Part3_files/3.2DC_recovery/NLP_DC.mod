@@ -82,7 +82,7 @@ THPin[t] >= THPhighout;
 ## MASS BALANCE
 
 subject to McpEPFL{t in Time}: #MCp of EPFL heating fluid calculation.
-MassEPFL[t] = Qheating[t] / (EPFLMediumT - EPFLMediumOut) / Cpwater;
+MassEPFL[t] = Qheating[t] / (EPFLMediumT - EPFLMediumOut);
 
 ## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION
 subject to dTLMDataCenter {t in Time}: #the logarithmic mean temperature difference in the heat recovery HE can be computed
