@@ -68,12 +68,9 @@ subject to Tcontrol1{t in Time}:
 THPin[t] <= TDCout[t]-5;	
 
 subject to Tcontrol2 {t in Time}:
-THPin[t] <= Tret-2;
+TDCout[t] >= EPFLMediumOut+0.1;
 
 subject to Tcontrol3 {t in Time}:
-TDCout[t] >= EPFLMediumOut;
-
-subject to Tcontrol4 {t in Time}:
 TDCin >= TRadin[t]+0.1;
 	 
 ## MASS BALANCE
