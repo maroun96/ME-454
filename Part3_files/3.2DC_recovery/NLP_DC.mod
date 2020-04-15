@@ -126,7 +126,7 @@ Qheating[t] = Qrad[t] + Qcond[t] ;
 
 ## COSTS and OBJECTIVE
 subject to OPEXcost: #the operating cost can be computed using the electricity consumed in the HP
-OPEX = sum{t in Time}  Cel * E[t] * top[t];
+OPEX = sum{t in Time} (Cel * E[t] * top[t]);
 
 subject to CAPEXcost: #the investment cost can be computed using the area of the heat recovery heat exchanger and annuity factor
 CAPEX = (aHE * AHEDC^bHE ) * INew / IRef * FBMHE * i * (1+i)^n/((1+i)^n-1);
