@@ -107,9 +107,10 @@ subject to overallHeatTransfer{b in MediumTempBuildings}: # Uenv calculation for
 		Uenv[b] = k_th[b]-mair/3600*Cpair;
 
 subject to VariableHeatdemand {t in Time} : #CHECK - Heat demand calculated as the sum of all buildings -> medium temperature
-		#if Text[t] < 16  then
-		Qheating[t] = sum{b in MediumTempBuildings} max(FloorArea[b]*(k_th[b]*(Tint-Text[t]) - k_sun[b]*irradiation[t]-specQ_people[b] - share_q_e*specElec[b,t]),0)
-;
+		Text[t] < 16 + 273.15 
+		==> Qheating[t] = sum{b in MediumTempBuildings} max(FloorArea[b]*(Uenv[b]*(Tint-Text[t]) + mair*Cpair/3600*(Tint-Tair_in[t]) - k_sun[b]*irradiation[t]-specQ_people[b] - share_q_e*specElec[b,t]),0) 
+		else Qheating[t] = 0;
+
 
 subject to Heat_Vent1 {t in Time}: #HEX heat load from one side;
 		Heat_Vent[t] = mair*Cpair/3600*(Text_new[t]-Text[t])	;
@@ -118,7 +119,7 @@ subject to Heat_Vent2 {t in Time}: #HEX heat load from the other side;
 		Heat_Vent[t]=mair*Cpair/3600*(Tint-Trelease[t]);
 
 subject to DTLNVent1 {t in Time}: #DTLN ventilation -> pay attention to this value: why is it special? #CHECK - SAME MCp, parallel lines
-		DTLNVent[t] = ((Text_new[t]-Tint)-(Text[t]-Trelease[t]))/(log(Text_new[t]-Tint)-log(Text[t]-Trelease[t]));
+		DTLNVent[t] = (((Tint-Text_new[t])*((Text[t]-Trelease[t])**2)+(Trelease[t]-Text[t])*((Tint-Text_new[t])**2))/2)**(1/3);
 
 subject to Area_Vent1 {t in Time}: #Area of ventilation HEX
 		Area_Vent >= Heat_Vent[t]/(DTLNVent[t]*Uvent);
@@ -136,11 +137,10 @@ subject to DTminVent2 {t in Time}: #DTmin needed on the other side of HEX
 
 ## MASS BALANCE
 
-subject to Flows_1{t in Time}: #MCp of EPFL heating fluid calculation.  #CHECK - Flows
+subject to Flows{t in Time}: #MCp of EPFL heating fluid calculation.  #CHECK - Flows
 		MassEPFL[t] = Qheating[t]/(EPFLMediumT - EPFLMediumOut);
 
-subject to Flows_2{t in Time}: #MCp of EPFL heating fluid calculation.
-		Flow[t] = Qevap[t]/(Cpwater*(THPhighin-THPhighout));	
+	
 		
 		
 ## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION 
