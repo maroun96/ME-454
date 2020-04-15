@@ -40,7 +40,7 @@ var MassEPFL{Time} 	>= 0.001; # MCp of EPFL heating system [KJ/(s degC)]
  
 ## MASS BALANCE
 
-subject to Flows_1{t in Time}: #MCp of EPFL heating fluid calculation.
+subject to Flows{t in Time}: #MCp of EPFL heating fluid calculation.
 	MassEPFL[t] = Qheating[t]/(EPFLMediumT - EPFLMediumOut);
 
 ## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION
@@ -70,6 +70,6 @@ subject to QEPFLausanne{t in Time}: #the heat demand of EPFL should be supplied 
 	Qcond[t] = Qheating[t];
 
 subject to OPEXcost: #the operating cost can be computed using the electricity consumed in the HP;
-	OPEX = sum{t in Time} Cel * E[t] * top[t];
+	OPEX = sum{t in Time} (Cel * E[t] * top[t]);
 ################################
-minimize obj : OPEX;
+#minimize obj : OPEX;
