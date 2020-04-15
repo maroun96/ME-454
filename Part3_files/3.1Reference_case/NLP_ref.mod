@@ -72,4 +72,4 @@ subject to QEPFLausanne{t in Time}: #the heat demand of EPFL should be supplied 
 subject to OPEXcost: #the operating cost can be computed using the electricity consumed in the HP;
 	OPEX = sum{t in Time} (Cel * E[t] * top[t]);
 ################################
-#minimize obj : OPEX;
+minimize obj : OPEX;
