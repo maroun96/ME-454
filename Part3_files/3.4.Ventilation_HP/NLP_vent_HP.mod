@@ -108,7 +108,7 @@ subject to overallHeatTransfer{b in MediumTempBuildings}: # Uenv calculation for
 
 subject to VariableHeatdemand {t in Time} : #CHECK - Heat demand calculated as the sum of all buildings -> medium temperature
 		#if Text[t] < 16  then
-			Qheating[t] = sum{b in MediumTempBuildings} max(FloorArea[b]*(k_th[b]*(Tint-Text[t]) - k_sun[b]*irradiation[t]-specQ_people[b] - share_q_e*specElec[b,t]),0)
+		Qheating[t] = sum{b in MediumTempBuildings} max(FloorArea[b]*(k_th[b]*(Tint-Text[t]) - k_sun[b]*irradiation[t]-specQ_people[b] - share_q_e*specElec[b,t]),0)
 ;
 
 subject to Heat_Vent1 {t in Time}: #HEX heat load from one side;
@@ -140,7 +140,7 @@ subject to Flows_1{t in Time}: #MCp of EPFL heating fluid calculation.  #CHECK -
 		MassEPFL[t] = Qheating[t]/(EPFLMediumT - EPFLMediumOut);
 
 subject to Flows_2{t in Time}: #MCp of EPFL heating fluid calculation.
-		Flow[t] = Qevap[t]/(THPhighin-THPhighout);	
+		Flow[t] = Qevap[t]/(Cpwater*(THPhighin-THPhighout));	
 		
 		
 ## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION 
@@ -226,7 +226,7 @@ subject to QEPFLausanne{t in Time}: #the heat demand of EPFL should be met; #CHE
 		Qcond[t] = Qheating[t];
 
 subject to OPEXcost: #the operating cost can be computed using the electricity consumed in the two heat pumps
-		OPEX = sum{t in Time}  Cel*(E[t]+E_2[t]);
+		OPEX = sum{t in Time}  Cel*(E[t]+E_2[t])*top[t];
 
 subject to CAPEXcost: #the investment cost can be computed using the area of ventilation HEX and new HP and the annuity factor
 		CAPEX = (Cost_HP + (aHE*Area_Vent^bHE)*INew/IRef*FBMHE)*i*(1+i)^n/((1+i)^n-1);
