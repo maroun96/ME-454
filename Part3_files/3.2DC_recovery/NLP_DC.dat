@@ -5,7 +5,7 @@ param Qheating := # medium temperature heating demand (KW or KWh)
 2 6785.64
 3 1222.19
 4 1561.1
-5 0
+5 0.01
 6 26232.8
 ;
 
