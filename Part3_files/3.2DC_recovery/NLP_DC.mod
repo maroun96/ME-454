@@ -65,19 +65,13 @@ var MassEPFL{Time} 	>= 0.001; # MCp of EPFL heating system [KJ/(s degC)]
 
 ## TEMPERATURE CONTROL CONSTRAINS exist to be sure the temperatures in the HEX do not cross, meaning to make sure there is a certain DTmin. (3 are recommended, but you can have more or less)
 subject to Tcontrol1{t in Time}: 
-TDCout[t] <= TDCin;
+THPin[t] <= TDCout[t]-5;	
 
 subject to Tcontrol2 {t in Time}:
-TDCout[t] >= Tret;
+TDCout[t] >= EPFLMediumOut+0.1;
 
 subject to Tcontrol3 {t in Time}:
-TDCout[t] >= EPFLMediumOut;
-
-subject to Tcontrol4 {t in Time}:
-TDCout[t] >= THPin[t];
-
-subject to Tcontrol5 {t in Time}:
-THPin[t] >= THPhighout;
+TDCin >= TRadin[t]+0.1;
 	 
 ## MASS BALANCE
 
@@ -122,17 +116,17 @@ subject to COPerformance{t in Time}: #the COP can be computed using the carnot e
 COP[t] = CarnotEff * TLMCond[t] /(TLMCond[t] - TLMEvapHP[t]);
 
 subject to dTLMCondensor{t in Time}: #the logarithmic mean temperature on the condenser, using inlet and outlet temperatures. Note: should be in K
-TLMCond[t] = (EPFLMediumT - TRadin[t])/log(EPFLMediumT/TRadin[t]);
+TLMCond[t] = (EPFLMediumT - TRadin[t])/log((EPFLMediumT+273)/(TRadin[t]+273));
 
 subject to dTLMEvaporator{t in Time}: #the logarithmic mean temperature can be computed using the inlet and outlet temperatures, Note: should be in K
-TLMEvapHP[t] = (THPin[t] - THPhighout)/log(THPin[t]/THPhighout);
+TLMEvapHP[t] = (THPin[t] - THPhighout)/log((THPin[t]+273)/(THPhighout+273));
 
 subject to QEPFLausanne{t in Time}: #the heat demand of EPFL should be the sum of the heat delivered by the 2 systems;
 Qheating[t] = Qrad[t] + Qcond[t] ;
 
 ## COSTS and OBJECTIVE
 subject to OPEXcost: #the operating cost can be computed using the electricity consumed in the HP
-OPEX = sum{t in Time}  Cel * E[t] * top[t];
+OPEX = sum{t in Time} (Cel * E[t] * top[t]);
 
 subject to CAPEXcost: #the investment cost can be computed using the area of the heat recovery heat exchanger and annuity factor
 CAPEX = (aHE * AHEDC^bHE ) * INew / IRef * FBMHE * i * (1+i)^n/((1+i)^n-1);
