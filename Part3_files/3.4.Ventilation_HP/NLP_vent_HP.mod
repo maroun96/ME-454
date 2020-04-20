@@ -112,11 +112,11 @@ subject to VariableHeatdemand {t in Time} : #CHECK - Heat demand calculated as t
 		else Qheating[t] = 0;
 
 
-subject to Heat_Vent1 {t in Time}: #HEX heat load from one side;
-		Heat_Vent[t] = mair*Cpair/3600*(Text_new[t]-Text[t])	;
+subject to Heat_Vent1 {t in Time}: #HEX heat load from one side; ##
+		Heat_Vent[t] = Area_Vent*mair*Cpair/3600*(Text_new[t]-Text[t])	;
 
-subject to Heat_Vent2 {t in Time}: #HEX heat load from the other side;
-		Heat_Vent[t]=mair*Cpair/3600*(Tint-Trelease[t]);
+subject to Heat_Vent2 {t in Time}: #HEX heat load from the other side; ##
+		Heat_Vent[t] = Area_Vent*mair*Cpair/3600*(Tint-Trelease[t]);
 
 subject to DTLNVent1 {t in Time}: #DTLN ventilation -> pay attention to this value: why is it special? #CHECK - SAME MCp, parallel lines
 		DTLNVent[t] = (((Tint-Text_new[t])*((Text[t]-Trelease[t])**2)+(Trelease[t]-Text[t])*((Tint-Text_new[t])**2))/2)**(1/3);
@@ -139,9 +139,6 @@ subject to DTminVent2 {t in Time}: #DTmin needed on the other side of HEX
 
 subject to Flows{t in Time}: #MCp of EPFL heating fluid calculation.  #CHECK - Flows
 		MassEPFL[t] = Qheating[t]/(EPFLMediumT - EPFLMediumOut);
-
-	
-		
 		
 ## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION 
 
@@ -170,19 +167,19 @@ subject to dTLMEvaporatorHP{t in Time}: #the logarithmic mean temperature can be
 ## Air Air HP
 
 subject to temperature_gap{t in Time}: #relation between Text and Text_new;
-		Text_new[t] = Text[t] + Heat_Vent[t]/(mair/3600*Cpair);
+		Text_new[t]  >= Text[t]  + 0.5  ;
 
 subject to temperature_gap2{t in Time}: #relation between Trelease and Trelease2;
-		Trelease[t] = Trelease_2[t] + Qevap_2[t]/(mair/3600*Cpair);
+		Trelease[t] >= Trelease_2[t] + 0.5 ;
 
 subject to temperature_gap3{t in Time}: # relation between Tair_in and Text_new;
-		Tair_in [t] = Text_new[t] + Qcond_2[t]/(mair/3600*Cpair);
+		Tair_in [t]  >=  Text_new[t] + 0.5 ;
 
 subject to temperature_gap4{t in Time}: # relation between TLMCond_2 and TLMEvapHP_2;  #CHECK - Why do we have this condition?
 		TLMCond_2[t] + 5 <= TLMEvapHP_2[t];
 
 subject to QEvaporator_2{t in Time}: #Evaporator heat from air side
-		Qevap_2[t] = mair/3600*Cpair*(Trelease[t] - Trelease_2[t]);
+		Qevap_2[t] = sum{b in MediumTempBuildings} FloorArea[b] * mair/3600*Cpair*(Trelease[t] - Trelease_2[t]);
 
 subject to QCondensator_2{t in Time}: #Condenser heat from air side
 		Qcond_2[t] = mair/3600*Cpair*(Tair_in[t] - Text_new[t]);
