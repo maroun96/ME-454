@@ -84,22 +84,22 @@ param specQ_people{Buildings} default 0;# specific average internal gains from p
 
 ## VENTILATION
 
-subject to Uenvbuilding{b in MediumTempBuildings}: # Uenv calculation for each building based on k_th and mass of air used
+subject to overallHeatTransfer{b in MediumTempBuildings}: # Uenv calculation for each building based on k_th and mass of air used
 		Uenv[b] = k_th[b]-mair/3600*Cpair;
 	
-subject to VariableHeatdemand {t in Time}: #Heat demand calculated as the sum of all buildings -> medium temperature
-		# if Text[t] < 16  then
-			Qheating[t] = sum{b in MediumTempBuildings} max(FloorArea[b]*(k_th[b]*(Tint-Text[t]) - k_sun[b]*irradiation[t]-specQ_people[b] - share_q_e*specElec[b,t]),0)
-;	
+subject to VariableHeatdemand {t in Time} : #CHECK - Heat demand calculated as the sum of all buildings -> medium temperature
+		Text[t] < 16 + 273.15 
+		==> Qheating[t] = sum{b in MediumTempBuildings} max(FloorArea[b]*(Uenv[b]*(Tint-Text[t]) + mair*Cpair/3600*(Tint-Tair_in[t]) - k_sun[b]*irradiation[t]-specQ_people[b] - share_q_e*specElec[b,t]),0) 
+		else Qheating[t] = 0;	
 
 subject to Heat_Vent1 {t in Time}: #HEX heat load from one side;
-		Heat_Vent[t] = mair*Cpair/3600*(Text_new[t]-Text[t])	;
+		Heat_Vent[t] = sum{b in Buildings} FloorArea[b]*mair*Cpair/3600*(Text_new[t]-Text[t])	;
 		
 subject to Heat_Vent2 {t in Time}: #HEX heat load from the other side;
-		Heat_Vent[t]=mair*Cpair/3600*(Tint-Trelease[t]);	
+		Heat_Vent[t]=sum{b in Buildings} FloorArea[b]*mair*Cpair/3600*(Tint-Trelease[t]);	
 
 subject to DTLNVent1 {t in Time}: #DTLN ventilation -> pay attention to this value: why is it special?
-		DTLNVent[t] = ((Text_new[t]-Tint)-(Text[t]-Trelease[t]))/(log(Text_new[t]-Tint)-log(Text[t]-Trelease[t]));
+		DTLNVent[t] = (((Tint-Text_new[t])*((Text[t]-Trelease[t])**2)+(Trelease[t]-Text[t])*((Tint-Text_new[t])**2))/2)**(1/3);
 
 subject to Area_Vent1 {t in Time}: #Area of ventilation HEX
 		Area_Vent >= Heat_Vent[t]/(DTLNVent[t]*Uvent);	
@@ -144,7 +144,7 @@ subject to QEPFLausanne{t in Time}: #the heat demand of EPFL should be supplied 
 		Qcond[t] = Qheating[t];	
 
 subject to OPEXcost: #the operating cost can be computed using the electricity consumed in the HP.
-		OPEX = sum{t in Time}  Cel*E[t];
+		OPEX = sum{t in Time}  Cel*E[t]*top[t];
 
 subject to CAPEXcost: #the investment cost can be computed using the area of the ventilation heat exchanegr
 		CAPEX = (aHE*Area_Vent^bHE)*INew/IRef*FBMHE*i*(1+i)^n/((1+i)^n-1);	
