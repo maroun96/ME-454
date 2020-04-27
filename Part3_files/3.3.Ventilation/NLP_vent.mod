@@ -66,6 +66,7 @@ var Flow{Time} 		>= 0; #lake water entering free coling HEX
 var MassEPFL{Time} 	>= 0; # MCp of EPFL heating system [KJ/(s degC)]
 
 var Uenv{Buildings} >= 0; # overall heat transfer coefficient of the building envelope 
+var Tair_in{Time}        	<= 40; #lets assume EPFL cannot take ventilation above 40 degrees (safety)
 
 #### Building dependent parameters
 
