@@ -92,10 +92,10 @@ subject to VariableHeatdemand {t in Time} : #CHECK - Heat demand calculated as t
 		else Qheating[t] = 0;	
 
 subject to Heat_Vent1 {t in Time}: #HEX heat load from one side;
-		Heat_Vent[t] = sum{b in Buildings} FloorArea[b]*mair*Cpair/3600*(Text_new[t]-Text[t]);
+		Heat_Vent[t] = sum{b in MediumTempBuildings} FloorArea[b]*mair*Cpair/3600*(Text_new[t]-Text[t]);
 		
 subject to Heat_Vent2 {t in Time}: #HEX heat load from the other side;
-		Heat_Vent[t]=sum{b in Buildings} FloorArea[b]*mair*Cpair/3600*(Tint-Trelease[t]);	
+		Heat_Vent[t] = sum{b in MediumTempBuildings} FloorArea[b]*mair*Cpair/3600*(Tint-Trelease[t]);	
 
 subject to DTLNVent1 {t in Time}: #DTLN ventilation -> pay attention to this value: why is it special?
 		DTLNVent[t] = (((Tint-Text_new[t])*((Text[t]-Trelease[t])**2)+(Trelease[t]-Text[t])*((Tint-Text_new[t])**2))/2)**(1/3);

@@ -53,7 +53,9 @@ Display commands
 display TC;
 display OPEX;
 display CAPEX;
-
+display DTLNVent;
+display DTminVent;
+display COP;
 display Area_Vent;
 display Qheating;
 display Heat_Vent;
