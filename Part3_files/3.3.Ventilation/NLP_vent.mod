@@ -65,8 +65,7 @@ var DTminVent 		>= 2; #[degC]
 var Flow{Time} 		>= 0; #lake water entering free coling HEX
 var MassEPFL{Time} 	>= 0; # MCp of EPFL heating system [KJ/(s degC)]
 
-var Uenv{Buildings} >= 0; # overall heat transfer coefficient of the building envelope 
-var Tair_in{Time}        	<= 40; #lets assume EPFL cannot take ventilation above 40 degrees (safety)
+var Uenv{Buildings} >= 0; # overall heat transfer coefficient of the building envelope  
 
 #### Building dependent parameters
 
@@ -88,8 +87,8 @@ subject to overallHeatTransfer{b in MediumTempBuildings}: # Uenv calculation for
 		Uenv[b] = k_th[b]-mair/3600*Cpair;
 	
 subject to VariableHeatdemand {t in Time} : #CHECK - Heat demand calculated as the sum of all buildings -> medium temperature
-		Text[t] < 16 + 273.15 
-		==> Qheating[t] = sum{b in MediumTempBuildings} max(FloorArea[b]*(Uenv[b]*(Tint-Text[t]) + mair*Cpair/3600*(Tint-Tair_in[t]) - k_sun[b]*irradiation[t]-specQ_people[b] - share_q_e*specElec[b,t]),0) 
+		Text[t] < 16 
+		==> Qheating[t] = sum{b in MediumTempBuildings} max(FloorArea[b]*(Uenv[b]*(Tint-Text[t]) + mair*Cpair/3600*(Tint-Text_new[t]) - k_sun[b]*irradiation[t]-specQ_people[b] - share_q_e*specElec[b,t]),0) 
 		else Qheating[t] = 0;	
 
 subject to Heat_Vent1 {t in Time}: #HEX heat load from one side;
@@ -109,6 +108,9 @@ subject to DTminVent1 {t in Time}: #DTmin needed on one side of HEX
 
 subject to DTminVent2 {t in Time}: #DTmin needed on the other side of HEX 
 		DTminVent <= Trelease[t] - Text[t];
+		
+subject to temperature_gap{t in Time}: #relation between Text and Text_new;
+		Text_new[t] >= Text[t] ;
 
 ## MASS BALANCE
 
