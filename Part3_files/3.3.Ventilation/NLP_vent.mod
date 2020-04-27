@@ -111,6 +111,9 @@ subject to DTminVent2 {t in Time}: #DTmin needed on the other side of HEX
 		
 subject to temperature_gap{t in Time}: #relation between Text and Text_new;
 		Text_new[t] >= Text[t] ;
+		
+subject to temperature_gap2{t in Time}: #relation between Trelease and Tint;
+		Tint >= Trelease[t] ;
 
 ## MASS BALANCE
 
