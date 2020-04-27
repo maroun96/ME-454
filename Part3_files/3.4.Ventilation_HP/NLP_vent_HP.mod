@@ -106,7 +106,11 @@ subject to overallHeatTransfer{b in MediumTempBuildings}: # Uenv calculation for
 		Uenv[b] = k_th[b]-mair/3600*Cpair;
 
 subject to VariableHeatdemand {t in Time} : #CHECK - Heat demand calculated as the sum of all buildings -> medium temperature
+<<<<<<< HEAD
 		Text[t] < 16
+=======
+		Text[t] < 16 
+>>>>>>> 76bfdd9b082324366fda228cb872702f1f9dd694
 		==> Qheating[t] = sum{b in MediumTempBuildings} max(FloorArea[b]*(Uenv[b]*(Tint-Text[t]) + mair*Cpair/3600*(Tint-Tair_in[t]) - k_sun[b]*irradiation[t]-specQ_people[b] - share_q_e*specElec[b,t]),0) 
 		else Qheating[t] = 0;
 
