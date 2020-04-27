@@ -112,7 +112,7 @@ subject to VariableHeatdemand {t in Time} : #CHECK - Heat demand calculated as t
 
 
 subject to Heat_Vent1 {t in Time}: #HEX heat load from one side; ##
-		Heat_Vent[t] = sum{b in MediumTempBuildings} FloorArea[b]*mair*Cpair/3600*(Text_new[t]-Text[t])	;
+		Heat_Vent[t] = sum{b in MediumTempBuildings} FloorArea[b]*mair*Cpair/3600*(Text_new[t]-Text[t]);
 
 subject to Heat_Vent2 {t in Time}: #HEX heat load from the other side; ##
 		Heat_Vent[t] = sum{b in MediumTempBuildings} FloorArea[b]*mair*Cpair/3600*(Tint-Trelease[t]);

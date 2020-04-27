@@ -13,20 +13,19 @@ param Text{t in Time};  #external temperature - Part 1
 param top{Time}; 		#your operating time from the MILP part
 param Areabuilding		>=0.001; #defined .dat file.
 
-param Tint 				:= 21+273.15; # internal set point temperature [C]
+param Tint 				:= 21; # internal set point temperature [C]
 param mair 				:= 2.5; # m3/m2/h
 param Cpair 			:= 1.152; # kJ/m3K
 param Uvent 			:= 0.025; # air-air HEX
 
-
-param EPFLMediumT 		:= 65+273.15; #[degC]
-param EPFLMediumOut 	:= 30+273.15; #[degC]
+param EPFLMediumT 		:= 65; #[degC]
+param EPFLMediumOut 	:= 30; #[degC]
 
 param CarnotEff 		:= 0.55; #assumption: carnot efficiency of heating heat pumps
 param Cel 				:= 0.20; #[CHF/kWh] operating cost for buying electricity from the grid
 
-param THPhighin 		:= 7+273.15; #[deg C] temperature of water coming from lake into the evaporator of the HP
-param THPhighout 		:= 3+273.15; #[deg C] temperature of water coming from lake into the evaporator of the HP
+param THPhighin 		:= 7; #[deg C] temperature of water coming from lake into the evaporator of the HP
+param THPhighout 		:= 3; #[deg C] temperature of water coming from lake into the evaporator of the HP
 param Cpwater			:= 4.18; #[kJ/kgC]
 
 param i 				:= 0.06 ; #interest rate
@@ -41,7 +40,7 @@ param bHE 				:= 0.6; #HE cost parameter
 # Variables
 
 var Text_new{t in Time} 	>= Text[t]; #[degC]
-var Trelease{Time}	>= 0+273.15; #[degC]
+var Trelease{Time}	>= 0; #[degC]
 var Qheating{Time} 	>= 0;     # your heat demand from the MILP part, is now a variable.
 
 var E{Time} 		>= 0;     # [kW] electricity consumed by the heat pump (using pre-heated lake water)
@@ -57,7 +56,7 @@ var TC 				>= 0.001; #[CHF/year] total cost
 
 var TLMEvapHP 		>= 0.001; #[K] logarithmic mean temperature in the evaporator of the heating HP (not using pre-heated lake water
 
-var TEvap 			>= 0.001+273.15; #[degC]
+var TEvap 			>= 0.001; #[degC]
 var Heat_Vent{Time} >= 0; #[kW]
 var DTLNVent{Time} 	>= 0.001; #[degC]
 var Area_Vent 		>= 0.001; #[m2]
@@ -67,7 +66,6 @@ var Flow{Time} 		>= 0; #lake water entering free coling HEX
 var MassEPFL{Time} 	>= 0; # MCp of EPFL heating system [KJ/(s degC)]
 
 var Uenv{Buildings} >= 0; # overall heat transfer coefficient of the building envelope 
-var Tair_in{Time}        	<= 40+273.15; #lets assume EPFL cannot take ventilation above 40 degrees (safety)
 
 #### Building dependent parameters
 
@@ -94,7 +92,7 @@ subject to VariableHeatdemand {t in Time} : #CHECK - Heat demand calculated as t
 		else Qheating[t] = 0;	
 
 subject to Heat_Vent1 {t in Time}: #HEX heat load from one side;
-		Heat_Vent[t] = sum{b in Buildings} FloorArea[b]*mair*Cpair/3600*(Text_new[t]-Text[t])	;
+		Heat_Vent[t] = sum{b in Buildings} FloorArea[b]*mair*Cpair/3600*(Text_new[t]-Text[t]);
 		
 subject to Heat_Vent2 {t in Time}: #HEX heat load from the other side;
 		Heat_Vent[t]=sum{b in Buildings} FloorArea[b]*mair*Cpair/3600*(Tint-Trelease[t]);	
@@ -124,22 +122,22 @@ subject to QEvaporator{t in Time}: #water side of evaporator that takes flow fro
 subject to QCondensator{t in Time}: #EPFL side of condenser delivering heat to EFPL (Reference case)
 		Qcond[t] = MassEPFL[t]*(EPFLMediumT-EPFLMediumOut);		
 
-subject to Electricity1{t in Time}: #the electricity consumed in the HP can be computed using the heat delivered and the heat extracted (Reference case)
+subject to Electricity{t in Time}: #the electricity consumed in the HP can be computed using the heat delivered and the heat extracted (Reference case)
 		E[t] = Qcond[t]-Qevap[t];
 
-subject to Electricity{t in Time}: #the electricity consumed in the HP can be computed using the heat delivered and the COP (Reference case)
-		E[t] = Qcond[t]/COP[t];	
+subject to Electricity_1{t in Time}: #the electricity consumed in the HP can be computed using the heat delivered and the COP (Reference case)
+		COP[t]*E[t] = Qcond[t];
 
-subject to COPerformance{t in Time}: #the COP can be computed using the carnot efficiency and the logarithmic mean temperatures in the condensor and in the evaporator (Reference case)
-		COP[t] = CarnotEff*TLMCond/(TLMCond-TLMEvap);	
+subject to COPerformance{t in Time}: #the COP can be computed using the carnot efficiency and the logarithmic mean temperatures in the condensor and in the evaporator  
+		(TLMCond-TLMEvap)*COP[t] = CarnotEff*TLMCond;	
 
 subject to dTLMCondensor{t in Time}: #the logarithmic mean temperature on the condenser, using inlet and outlet temperatures. Note: should be in K (Reference case)
-		TLMCond= (EPFLMediumT-EPFLMediumOut)/log(EPFLMediumT/EPFLMediumOut);	
+		log((EPFLMediumT+273.15)/(EPFLMediumOut+273.15))*TLMCond= (EPFLMediumT-EPFLMediumOut);
 
 subject to dTLMEvaporatorHP{t in Time}: #the logarithmic mean temperature can be computed using the inlet and outlet temperatures, Note: should be in K (Reference case)
-		TLMEvap = (THPhighin-THPhighout)/log(THPhighin/THPhighout);	
+		log((THPhighin+273.15)/(THPhighout+273.15))*TLMEvap = (THPhighin-THPhighout);
 
-## MEETING HEATING DEMAND, ELECTRICAL CONSUMPTION
+## COST CONSIDERATIONS
 
 subject to QEPFLausanne{t in Time}: #the heat demand of EPFL should be supplied by the the HP.
 		Qcond[t] = Qheating[t];	
