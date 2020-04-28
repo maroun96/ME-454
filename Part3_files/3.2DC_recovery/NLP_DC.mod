@@ -32,6 +32,7 @@ param HeatDC 		:= 574; #amount of heat to be removed from data center (kW)
 param Tret 			:= 17; #temperature of air entering DC
 param MassDC 		:= HeatDC/(TDCin-Tret); #[KJ/(s degC)] MCp of air in DC
 param Cpwater		:= 4.18; #[kJ/kgC]
+ 
 ################################
 ##Variables
 
@@ -58,7 +59,7 @@ var THPin{Time} 	>= 7;
 var Qfree{Time} 	>= 0.001; #free cooling heat; makes sure DC air is cooled down.
 var Flow{Time} 		>= 0.001; #lake water entering free coling HEX
 var MassEPFL{Time} 	>= 0.001; # MCp of EPFL heating system [KJ/(s degC)]
-
+var DTmin           ;
 ################################
 # Constraints
 ####### Direct Heat Exchanger;
@@ -68,7 +69,7 @@ subject to Tcontrol1{t in Time}:
 THPin[t] <= TDCout[t]-3;	
 
 subject to Tcontrol2 {t in Time}:
-TDCout[t] >= EPFLMediumOut+3;
+TDCout[t] <= EPFLMediumOut+0.1;
 
 subject to Tcontrol3 {t in Time}:
 TDCin >= TRadin[t]+3;
@@ -122,8 +123,13 @@ subject to dTLMEvaporator{t in Time}: #the logarithmic mean temperature can be c
 TLMEvapHP[t] = (THPin[t] - THPhighout)/log((THPin[t]+273)/(THPhighout+273));
 
 subject to QEPFLausanne{t in Time}: #the heat demand of EPFL should be the sum of the heat delivered by the 2 systems;
-Qheating[t] = Qrad[t] + Qcond[t] ;
+Qheating[t] = Qrad[t] + Qcond[t];
 
+subject to DTmin_1{t in Time}:
+DTmin <= TDCin - TRadin[t];
+
+subject to DTmin_2{t in Time}:
+DTmin <= TDCout[t] - EPFLMediumOut;
 ## COSTS and OBJECTIVE
 subject to OPEXcost: #the operating cost can be computed using the electricity consumed in the HP
 OPEX = sum{t in Time} (Cel * E[t] * top[t]);
