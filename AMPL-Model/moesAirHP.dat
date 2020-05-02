@@ -1,0 +1,38 @@
+let Fmax['AirHP'] := 1;
+
+let Qheatingsupply["AirHP"] := 0;
+
+let QAirHP["AirHP",1] := 855.006;
+let QAirHP["AirHP",2] := 864.667;
+let QAirHP["AirHP",3] := 667.72;
+let QAirHP["AirHP",4] := 873.537;
+let QAirHP["AirHP",5] := 624.242;
+let QAirHP["AirHP",6] := 841.342;
+
+
+param EAirHP{t in Time} default 0;
+
+let EAirHP[1] := 2523.56;
+let EAirHP[2] := 1254.24;
+let EAirHP[3] := 253.447;
+let EAirHP[4] := 224.275;
+let EAirHP[5] := 0;
+let EAirHP[6] := 5699.67;
+
+param E2AirHP{t in Time} default 0;
+
+let E2AirHP[1] := 27.1521;
+let E2AirHP[2] := 27.1521;
+let E2AirHP[3] := 20.811;
+let E2AirHP[4] := 27.1521;
+let E2AirHP[5] := 19.2904;
+let E2AirHP[6] := 27.1521;
+
+
+for{t in Time}{
+	let Flowin_Air_HP["Electricity", "AirHP", t] := EAirHP[t] + E2AirHP[t];
+}
+
+
+let cinv1['AirHP']:=630292;
+let cinv2['AirHP']:=0;

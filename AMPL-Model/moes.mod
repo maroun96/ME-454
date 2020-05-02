@@ -90,11 +90,13 @@ param Tminheating{UtilitiesOfType['Heating']} default 0;
 
 # reference flow of the heating and cooling [kW]
 param Qheatingsupply{UtilitiesOfType['Heating']} default 1000;
+param QAirHP{u in {"AirHP"}, t in Time} default 0;
 
 # reference flow of the resources (elec, natgas etc) [kW] [m3/s] [kg/s]
 param Flowin{l in Layers,u in UtilitiesOfLayer[l]} default 0;
 param Flowout{l in Layers,u in UtilitiesOfLayer[l]} default 0;
 param Flowin_hp{l in Layers, u in {"HP1stageLT", "HP1stageMT"}, t in Time} default 0;
+param Flowin_Air_HP{l in Layers, u in {"AirHP"}, t in Time} default 0;
 
 # minimum and maximum scaling factors of the utilities
 param Fmin{Utilities} default 0.001;
@@ -146,7 +148,7 @@ var mult_heating_t{UtilitiesOfType['Heating'], Time, HeatingLevel} >= 0;
 subject to LT_balance{t in Time}:
 	Qheatingdemand['LowT',t] = sum{u in UtilitiesOfType['Heating']: Tminheating[u] >= Theating['LowT'] + dTmin} (Qheatingsupply[u] * mult_heating_t[u,t,'LowT']);
 subject to MT_balance{t in Time}:
-	Qheatingdemand['MediumT',t] = sum{u in UtilitiesOfType['Heating']: Tminheating[u] >= Theating['MediumT'] + dTmin} (Qheatingsupply[u] * mult_heating_t[u,t,'MediumT']);
+	Qheatingdemand['MediumT',t] = sum{u in UtilitiesOfType['Heating']: Tminheating[u] >= Theating['MediumT'] + dTmin} (Qheatingsupply[u] * mult_heating_t[u,t,'MediumT']) + QAirHP["AirHP",t]*mult_t["AirHP",t];
 subject to heating_mult_cstr{u in UtilitiesOfType['Heating'], t in Time}:
 	mult_t[u,t] = sum{h in HeatingLevel} mult_heating_t[u,t,h];
 subject to zero_constraint1{t in Time}:
@@ -161,6 +163,8 @@ subject to inflow_cstr {l in Layers, u in UtilitiesOfLayer[l] diff {"HP1stageLT"
 	FlowInUnit[l, u, t] = mult_t[u,t] * Flowin[l,u];
 subject to inflow_cstr2 {l in Layers, u in {"HP1stageLT", "HP1stageMT"}, t in Time}:
 	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_hp[l,u,t];
+subject to inflow_cstr3 {l in Layers, u in {"AirHP"}, t in Time}:
+	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_Air_HP[l,u,t];
 	
 subject to outflow_cstr {l in Layers, u in UtilitiesOfLayer[l], t in Time}:
 	FlowOutUnit[l, u, t] = mult_t[u,t] * Flowout[l,u];

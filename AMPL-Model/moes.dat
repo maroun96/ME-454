@@ -31,6 +31,7 @@ HP1stageMT
 Cogen
 HPDatacenter
 HPWaste
+AirHP
 ;
 
 set Grids :=															# set of grid units
@@ -66,6 +67,7 @@ HP1stageMT
 Cogen
 HPDatacenter
 HPWaste
+AirHP
 ;
 
 set UtilitiesOfType[ElectricitySup] :=
@@ -83,6 +85,7 @@ HP1stageMT
 HPDatacenter
 HPWaste
 ElecGridSell
+AirHP
 ;
 
 set UtilitiesOfLayer[Electricity] :=
@@ -98,6 +101,7 @@ HPWaste
 ElecGridBuy
 ElecGridSell
 Boiler
+AirHP
 ;
 
 set UtilitiesOfLayer[Natgas] :=
