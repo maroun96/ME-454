@@ -22,20 +22,23 @@ param T_evap 			:= 6;  #[deg C] evaporaion temperature of hp
 param T_source 			:= 10 ;# [deg C] Temperature of heat pump heat source at which the heat is delvered to evaporator;
 
 
-#costing parameters 
-#costing parameters 
-param k1  				:= ;	#parameter for compressor cost function
-param k2 			 	:= ; 	#parameter for compressor cost function
-param k3  				:= ;    #parameter for compressor cost function
-param k1_HEX			:= ; 	#parameter for HEX cost function
-param k2_HEX	 	 	:= ;	#parameter for HEX cost function
-param k3_HEX  			:= ;	#parameter for HEX cost function
-param f_BM 				:= ; 	# bare module factor for compressor (CS) 
-param f_BM_HEX			:= ; 	# bare module factor for HEX 
-param ref_index 		:= ; 	# CEPCI reference 2001 
-param index 			:= ;	# CEPCI 2016
+#costing parameters (Turton book) 
+param k1  				:= 2.2897;	#parameter for compressor cost function
+param k2 			 	:= 1.3604; 	#parameter for compressor cost function
+param k3  				:= -0.1027;    #parameter for compressor cost function
 
-param U_water_ref       := ; 	#water-refrigerant global heat transfer coefficient (kW/m2.K)
+#U-Tube Heat exchanger
+param k1_HEX			:= 4.1884; 	#parameter for HEX cost function
+param k2_HEX	 	 	:=-0.2503;	#parameter for HEX cost function
+param k3_HEX  			:=0.1974;	#parameter for HEX cost function
+
+param f_BM 				:= 4; 	# bare module factor for compressor (CS) 
+param f_BM_HEX			:= 4.74 ; 	# bare module factor for HEX (From project description Part3)
+
+param ref_index 		:= 394.3; 	# CEPCI reference 2001 
+param index 			:= 541.7;	# CEPCI 2016
+
+param U_water_ref       := 0.75; 	#water-refrigerant global heat transfer coefficient (kW/m2.K) (From project description Part3)
 param U_air_ref         := ; 	#air-refrigerant global heat transfer coefficient (kW/m2.K)
 
 param T_medium_out         :=30; #Medium temperature return EPFL
