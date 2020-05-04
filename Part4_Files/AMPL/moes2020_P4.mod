@@ -85,11 +85,11 @@ c_factor2[t] = a*T_ext[t]^2 - b*T_ext[t] + c;
 subject to TlnCond_constraint: #calculates the Log mean temperatrure of the epfl medium temperature loop 
 log((T_medium_in+273.15)/(T_medium_out+273.15))*TlnCond = (T_medium_in-T_medium_out);
 	
-subject to DTlnCond_constraint: #calculated the DTLN of the condenser heat exchanger EPFL medium temperature loop - heat pump for the expreme period, you can neglect the sensible heat transfer
-log((T_cond-T_medium_out)/(T_cond-T_medium_in))*DTlnCond = ((T_cond-T_medium_out) - (T_cond-T_medium_in));	
+subject to DTlnCond_constraint{t in Time}: #calculated the DTLN of the condenser heat exchanger EPFL medium temperature loop - heat pump for the expreme period, you can neglect the sensible heat transfer
+log((T_cond[t]-T_medium_out)/(T_cond[t]-T_medium_in))*DTlnCond <= ((T_cond[t]-T_medium_out) - (T_cond[t]-T_medium_in));	
 
 subject to Heat_condenser: #Heat transferred to EPFL network on extreme period, this equation is needed to define T_medium_in
-Q_cond = Mcp*(T_medium_in-T_medium_out);	
+Qheating = Mcp*(T_medium_in-T_medium_out);	
 #T_medium_in = 65?? 
 
 subject to Condenser_area{t in Time}: #Area of condenser HEX, calclated for extreme period 
