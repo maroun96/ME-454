@@ -73,7 +73,7 @@ subject to CarnotFactor1{t in Time}:  #caculates the carnot factor for all time 
 #avoid dividing by 0! ,use conditions
 (W_hp[t]*T_cond[t])*c_factor1[t] = Q_cond[t] * (T_cond[t]-T_evap);
 
-#Use total power of HP or power of compressor in High Pressure Loop?
+#Use total power of HP or power of compressor in High Pressure Loop ?
 #Temperature of source/sink or cond/evap?
 #(W_hp[t]*TlnCond[t])*c_factor1[t] = Q_cond[t] * (TlnCond[t]-T_source);
 
@@ -90,9 +90,10 @@ log((T_cond-T_medium_out)/(T_cond-T_medium_in))*DTlnCond = ((T_cond-T_medium_out
 
 subject to Heat_condenser: #Heat transferred to EPFL network on extreme period, this equation is needed to define T_medium_in
 Q_cond = Mcp*(T_medium_in-T_medium_out);	
+#T_medium_in = 65?? 
 
-subject to Condenser_area: #Area of condenser HEX, calclated for extreme period 
-Q_cond = U_water_ref*DTlnCond*Cond_area;
+subject to Condenser_area{t in Time}: #Area of condenser HEX, calclated for extreme period 
+Q_cond[t] <= U_water_ref*DTlnCond*Cond_area;
 
 subject to Comp1cost{t in Time}: 
 #calculates the cost for comp1 for extreme period 
