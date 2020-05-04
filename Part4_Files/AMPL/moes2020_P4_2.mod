@@ -64,7 +64,7 @@ var DTlnEvap				>= 0.001 ;
 ################################
 
 subject to Wcompressor2{t in Time}: #calculates the electricity demand of the second compressor 
-
+W_comp2[t]=W_hp[t]-W_comp1[t];
 
 
 subject to CarnotFactor1{t in Time}:  
@@ -73,27 +73,29 @@ subject to CarnotFactor1{t in Time}:
 #for calculating the carnot factor, assume t_epfl_low as condenser temperature, and source temperature as evaporator temperature
 #How can you calculate the condensation heat that is available here? 
 #avoid dividing by 0! ,use conditions
+c_factor1[t]*(Tcond-Tevap)*W_hp[t]=Tcond*Q_cond;
+
 
 subject to CarnotFactor2{t in Time}:  #caculates the carnot factor for all time steps with fitting function (2nd degree polynomial)
 #if you used conditions in CarnotFactor1,apply the same ones 
-
+c_factor2[t]=-a * T_ext[t]**2 - b *T_ext[t] + c;
 
 
 subject to DTlnEvap_constraint: #calculated the DTLN of the evap heat exchanger,  source - heat pump
-	
-
+DTlnEvap*log((T_evap+273.15)/T_source+273.15)=(T_evap+273.15-T_source+273.15);
+#DTLNVent[t] = (((Tint-Text_new[t])*((Text[t]-Trelease[t])**2)+(Trelease[t]-Text[t])*((Tint-Text_new[t])**2))/2)**(1/3);
 subject to Evaporator_area: #Area of evap HEX, calclated for extreme period 
-	
+Evap_area*U_water_ref*DTlnEvap>=Q_evap[t];	
 
 subject to Comp2cost: #calculates the cost for comp2 for extreme period 
-
+comp_cost>=10**(k1+log(W_comp2[t]*k2-k3*log(W_comp2[t])**2);
 
  #subject to HEX1_cost: #calculates the cost forHEX1 for extreme period 
  subject to Evaporator_cost:
- 	
+ Evap_cost=10**(k1+log(Evap_area*k2-k3*log(Evap_area)**2);	
 
  subject to Error: #calculates the mean square error between carnot factors that needs to be minimized 
-	
+mse[t]=sum {t in time} (c_factor1[t]-c_factor2[t])**2;	
 
 
 
