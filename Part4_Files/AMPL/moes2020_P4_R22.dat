@@ -3,78 +3,78 @@ set Time := 1 2 3 4 5 6 7 8 9 10 11 12;
 #note that in peridos 4-6, there is no heating demand! Temperatures can be left constan here for all working fluids
 param Q_cond := # [kW] heat provided by heat pump, Q_COND_LOAD 
 1 6000.00 
-2 
-3
-4 
+2 6000.00
+3 5648.17
+4 3897.32
 5 0
 6 0
 7 0
 8 0
-9  
-10 
-11 
+9 904.543 
+10 2542.12
+11 5309.24
 12 6000.00
 ;
 
 param Q_evap := # [kW] heat provided by heat pump, Q_EVAP_LOAD 
-1 
-2 
-3  
-4 3
+1 4405.27
+2 4432.90
+3  4236.99
+4 3 #3058.37
 5 0
 6 0
 7 0
 8 0
-9  
-10 
-11  
-12  
+9  760.190
+10 2059.94
+11  4019.12
+12  4228.92
 ;
 
 param W_hp := # [kW] electricity needed by heat pump (compressor 1 and 2),   HP_ELECTRIC_VAR1
-1 
-2  
-3 
-4 
+1 1594.73
+2  1567.10
+3 1411.19
+4 838.949
 5 0
 6 0
 7 0
 8 0 
-9 
-10 
-11 
-12 
+9 144.353
+10 482.178
+11 1290.12
+12 1771.08
 ;
 
 param W_comp1 := # [kW] electricity needed by heat pump compressor 1 ,  W_HP_COMP1_POWER  
-1 
-2    
-3   
-4 
+1 697.533 
+2 666.499   
+3  643.954 
+4 365.949
 5 0
 6 0
 7 0
 8 0
-9
-10  
-11 
-12 
+9 78.4640
+10 239.010 
+11 554.404
+12 722.039
 ;
 
 
 param T_cond := # [deg C]  condensation temperature of hp, HP6_T (for period 5-8: leave it constant (no heating demand)). 
-1  
-2  
-3  
-4  
+1  41.5731
+2  40.9038
+3  39.2308
+4  34.0442
 5  22.5
 6  22.5
 7  22.5
 8  22.5
-9
-10
-11
-12
+9 25.1769
+10 30.0288
+11 38.2269
+12 45.7558
 ; 
 
 param T_ext := # [deg C]  external temperature
@@ -92,16 +92,16 @@ param T_ext := # [deg C]  external temperature
 12 2.1
 ;  
 param T_hp_4 := # [deg C]  temperature of hp at poijnt 4 (for period 5-8: leave it constant (no heating demand)). 
-1
-2
-3
-4 21.6
+1 23.6925
+2 22.8328
+3 23.0100
+4 21.6 #19.3330
 5 21.6
 6 21.6
 7 21.6
 8 21.6
-9
-10
-11
-12
+9 17.3214
+10 18.8977
+11 21.4562
+12 24.9878
 ; 
