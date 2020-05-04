@@ -39,7 +39,8 @@ param ref_index 		:= 394.3; 	# CEPCI reference 2001
 param index 			:= 541.7;	# CEPCI 2016
 
 param U_water_ref       := 0.75; 	#water-refrigerant global heat transfer coefficient (kW/m2.K) (From project description Part3)
-param U_air_ref         := ; 	#air-refrigerant global heat transfer coefficient (kW/m2.K)
+#param U_air_ref         := ; 	#air-refrigerant global heat transfer coefficient (kW/m2.K)
+#Useful?
 
 param T_medium_out         :=30; #Medium temperature return EPFL
 var T_medium_in         	>=30; #Medium temperature supply EPFL
@@ -70,36 +71,39 @@ subject to CarnotFactor1{t in Time}:  #caculates the carnot factor for all time 
 #we assume that the high pressure stage can provide heat to the medium temperature network of epfl
 #TlnCond  is the condensation temperature, what is the evaporation temperature of this stage? 
 #avoid dividing by 0! ,use conditions
+(W_hp[t]*T_cond[t])*c_factor1[t] = Q_cond[t] * (T_cond[t]-T_evap);
 
-	
+#Use total power of HP or power of compressor in High Pressure Loop?
+#Temperature of source/sink or cond/evap?
+#(W_hp[t]*TlnCond[t])*c_factor1[t] = Q_cond[t] * (TlnCond[t]-T_source);
 
 subject to CarnotFactor2{t in Time}:  #caculates the carnot factor for all time steps with fitting function (2nd degree polynomial)
 #if you used conditions in CarnotFactor1,apply the same ones 
-
+c_factor2[t] = a*T_ext[t]^2 - b*T_ext[t] + c;
 
 
 subject to TlnCond_constraint: #calculates the Log mean temperatrure of the epfl medium temperature loop 
-	
+log((T_medium_in+273.15)/(T_medium_out+273.15))*TlnCond = (T_medium_in-T_medium_out);
 	
 subject to DTlnCond_constraint: #calculated the DTLN of the condenser heat exchanger EPFL medium temperature loop - heat pump for the expreme period, you can neglect the sensible heat transfer
-	
+log((T_cond-T_medium_out)/(T_cond-T_medium_in))*DTlnCond = ((T_cond-T_medium_out) - (T_cond-T_medium_in));	
 
 subject to Heat_condenser: #Heat transferred to EPFL network on extreme period, this equation is needed to define T_medium_in
-	
+Q_cond = Mcp*(T_medium_in-T_medium_out);	
 
 subject to Condenser_area: #Area of condenser HEX, calclated for extreme period 
+Q_cond = U_water_ref*DTlnCond*Cond_area;
 
-
-
-subject to Comp1cost: 
+subject to Comp1cost{t in Time}: 
 #calculates the cost for comp1 for extreme period 
- 	
+comp_cost >= 10^(k1 + k2*log10(W_comp1[t])+k3*(log10(W_comp1[t]))^2);
+  	
  #subject to HEX2_cost: #calculates the cost for HEX2 for extreme period 
  subject to Condenser_cost:
- 	
+ Cond_cost = 10^(k1_HEX + k2_HEX*log10(Cond_area)+k3_HEX*(log10(Cond_area))^2);
 
  subject to Error: #calculates the mean square error that needs to be minimized 
-
+mse = sum{t in Time}(c_factor2[t]-c_factor1[t])^2;
 
 
 
