@@ -20,7 +20,7 @@ param Q_evap := # [kW] heat provided by heat pump, Q_EVAP_LOAD
 1 4866.28
 2 4884.37
 3 4640.04 
-4 3 #3291.60 
+4 3291.60 #3
 5 0
 6 0
 7 0
@@ -100,7 +100,7 @@ param T_hp_4 := # [deg C]  temperature of hp at poijnt 4 (for period 5-8: leave 
 6 21.6
 7 21.6
 8 21.6
-9 36.2222
+9  18.4099   
 10 19.8498
 11 22.7025
 12 26.2298

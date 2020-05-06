@@ -3,19 +3,20 @@ Load the main model and its data
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 reset;
 
-model moes2020_P4.mod;  # activate this to calculate carnot factor of high pressure stage
-#model moes2020_P4_2.mod; # activate this to calculate carnot factor of low pressure stage
+#model moes2020_P4.mod;  # activate this to calculate carnot factor of high pressure stage
+model moes2020_P4_2.mod; # activate this to calculate carnot factor of low pressure stage
 
 
 # include your specific data for your working fluid
 # activate the fluid you wanna use
-data moes2020_P4_R21.dat; 
+#data moes2020_P4_R21.dat; 
 
-#data moes2020_P4_R22.dat; 
+data moes2020_P4_R22.dat; 
 /*---------------------------------------------------------------------------------------------------------------------------------------
 AMPL options
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-option solver './snopt';
+#option solver './snopt';
+option solver snopt;
 #option display_round 5;
 #option precision_round 5;
 #option solution_round 5;

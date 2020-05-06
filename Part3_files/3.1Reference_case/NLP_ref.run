@@ -30,6 +30,7 @@ display Qcond;
 display COP;
 display MassEPFL;
 display Flow;
+display Qheating;
 
 display OPEX;
 
