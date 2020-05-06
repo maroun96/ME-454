@@ -19,8 +19,8 @@ param Q_cond := # [kW] heat provided by heat pump, Q_COND_LOAD
 param Q_evap := # [kW] heat provided by heat pump, Q_EVAP_LOAD 
 1 4405.27
 2 4432.90
-3  4236.99
-4 3 #3058.37
+3 4236.99
+4 3058.37
 5 0
 6 0
 7 0
