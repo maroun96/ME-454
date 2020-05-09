@@ -81,7 +81,7 @@ subject to CarnotFactor1{t in Time}:
 
 W_comp1[t]>0 
 
-		==> c_factor1[t]*(T_epfl_low-T_source)*W_comp1[t]=T_epfl_low*Q_cond1[t]
+		==> c_factor1[t]/(T_epfl_low-T_source)*W_comp1[t]=Q_cond1[t]/(T_epfl_low+273)
 		else c_factor1[t]=0.001;
 
 

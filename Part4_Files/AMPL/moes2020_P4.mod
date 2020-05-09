@@ -77,7 +77,7 @@ subject to CarnotFactor1{t in Time}:  #caculates the carnot factor for all time 
 #avoid dividing by 0! ,use conditions
 
 Q_cond[t] > 0
-==> (W_comp2[t]*(T_cond[t]-T_hp_4[t]))*c_factor1[t] = Q_cond[t] * (T_cond[t])
+==> (W_comp2[t]/(T_cond[t]-T_hp_4[t]))*c_factor1[t] = Q_cond[t] / (T_cond[t]+273)
 	else c_factor1[t]=0.001;
 
 subject to CarnotFactor2{t in Time}:  #caculates the carnot factor for all time steps with fitting function (2nd degree polynomial)
