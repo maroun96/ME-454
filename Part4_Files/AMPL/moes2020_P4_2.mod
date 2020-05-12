@@ -102,11 +102,11 @@ subject to Evaporator_area: #Area of evap HEX, calclated for extreme period
 Evap_area*U_water_ref*DTlnEvap=Q_evap[12];	
 
 subject to Comp2cost: #calculates the cost for comp2 for extreme period 
-comp_cost=10**(k1+log10(W_comp1[12])*k2+k3*(log10(W_comp1[12]))**2);
+comp_cost=10**(k1+log10(W_comp1[12])*k2+k3*(log10(W_comp1[12]))**2)*(index/ref_index)*f_BM;
 
  #subject to HEX1_cost: #calculates the cost forHEX1 for extreme period 
  subject to Evaporator_cost:
- Evap_cost=10**(k1+log10(Evap_area)*k2+k3*(log10(Evap_area))**2);	
+ Evap_cost=10**(k1_HEX+log10(Evap_area)*k2_HEX+k3_HEX*(log10(Evap_area))**2)*(index/ref_index)*f_BM_HEX;	
 
  subject to Error: #calculates the mean square error between carnot factors that needs to be minimized 
 mse=sum {t in Time} (c_factor1[t]-c_factor2[t])**2/12;	

@@ -102,11 +102,11 @@ Q_cond[12] = U_water_ref*DTlnCond*Cond_area;
 
 subject to Comp1cost: 
 #calculates the cost for comp1 for extreme period 
-comp_cost = 10^(k1 + k2*log10(W_comp2[12])+k3*(log10(W_comp2[12]))^2);
+comp_cost = 10^(k1 + k2*log10(W_comp2[12])+k3*(log10(W_comp2[12]))^2)*(index/ref_index)*f_BM;
   	
  #subject to HEX2_cost: #calculates the cost for HEX2 for extreme period 
  subject to Condenser_cost:
- Cond_cost = 10^(k1_HEX + k2_HEX*log10(Cond_area)+k3_HEX*(log10(Cond_area))^2);
+ Cond_cost = 10^(k1_HEX + k2_HEX*log10(Cond_area)+k3_HEX*(log10(Cond_area))^2)*(index/ref_index)*f_BM_HEX;
 
  subject to Error: #calculates the mean square error that needs to be minimized 
 mse = sum{t in Time}(c_factor2[t]-c_factor1[t])^2 /12;
