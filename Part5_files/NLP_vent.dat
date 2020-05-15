@@ -1,0 +1,29 @@
+set Time := 1 2 3 4 5 6;
+
+param irradiation :=													# irradiation at each time step ATTENTION --> [kW/m2]
+1 0.067
+2 0.057
+3 0.404
+4 0.088
+5 0.097
+6 0
+;
+
+param Text := 															# external temperature [C]
+1 0.15
+2 6.62
+3 10.99
+4 12.56
+5 16.0
+6 -9
+;
+
+param top :=															# operating time of each time step
+1 473
+2 692
+3 535
+4 543
+5 6515
+6 1
+;
+
