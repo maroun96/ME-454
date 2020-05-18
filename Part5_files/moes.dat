@@ -175,4 +175,9 @@ ElecGridBuy 0.0916
 ElecGridSell -0.06
 ;
 
+param c_co2 :=
+NatGasGrid 0.2
+ElecGridBuy 0.129
+ElecGridSell 0
+;
 end;

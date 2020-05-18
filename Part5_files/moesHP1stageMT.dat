@@ -1,49 +1,26 @@
 /*---------------------------------------------------------------------------------------------------------------------------------------
-Load the main model and its data
+Set the maximum scaling factor
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-reset;
-model NLP_DC.mod;
-data NLP_DC.dat;
-
+let  Fmax['HP1stageMT'] := 10;
 /*---------------------------------------------------------------------------------------------------------------------------------------
-AMPL options
+Set the minimum temperature of the HP
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-/*option solver './snopt';*/
-option solver baron;
-#option omit_zero_rows 1;
-#option omit_zero_cols 1;
-#option presolve_eps 8.53e-15;
-
+let Tminheating['HP1stageMT'] := 65;
 /*---------------------------------------------------------------------------------------------------------------------------------------
-Solve the problem
+Set flow rate of electricity as a function of HP
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-solve;
-
+for{t in Time}{
+	let Flowin_hp["Electricity", "HP1stageMT", t] := Qheatingsupply["HP1stageMT"]/COP_HP1stageMT[t];
+}
 /*---------------------------------------------------------------------------------------------------------------------------------------
-Display commands
+Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-#These variables might be interest to print. Feel free to choose new ones!
-display TC;
+param years_HPMT default 20;
+param IC_HPMT default 0;
+param F_BMHPMT := 4;
 
-display TRadin;
-display TDCout;
-display AHEDC;
-display dTLMDC;
+let IC_HPMT := interest*(IC_HPMT+1)^years_HPMT/((interest+1)^years_HPMT-1);
 
-display Qrad;
-display E;
-display TLMCond;
-display Qevap;
-display Qcond;
-display COP;
-display MassEPFL;
-display MassDC;
-display Qfree;
-display THPin;
-display Flow;
-display DTmin;
+let cinv1['HP1stageMT'] := 0.98 * IC_HPMT * 1.9230e+04 * F_BMHPMT * (I_2019/I_2001);				#  [CHF]
 
-display OPEX;
-display CAPEX;
-
-
+let cinv2['HP1stageMT'] := 0.98 * IC_HPMT * 293.1891 * 343.1697 * F_BMHPMT * (I_2019/I_2001);			# continious investment cost [CHF/kW]

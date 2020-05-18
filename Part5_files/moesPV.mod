@@ -1,37 +1,17 @@
 /*---------------------------------------------------------------------------------------------------------------------------------------
-Load the main model and its data
+Set the efficiency of PV
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-reset;
-model NLP_ref.mod;
-data NLP_ref.dat;
+param eff_PV default 0.2;
+
+var usedroofArea >=0;										# continuous variable to picture how much roof is used 
+/*---------------------------------------------------------------------------------------------------------------------------------------
+Set the electricity output as a function of irradiation, efficiency and used roof area
+---------------------------------------------------------------------------------------------------------------------------------------*/
+subject to pv_elec{t in Time}:
+	Flowout['Electricity','PV'] * mult_t['PV',t] = irradiation[t] * usedroofArea * eff_PV;
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
-AMPL options
+roof usage 
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-/*option solver './snopt';*/
-option solver baron; #or snopt or any non-linear solver
-#option omit_zero_rows 1;
-#option omit_zero_cols 1;
-
-/*---------------------------------------------------------------------------------------------------------------------------------------
-Solve the problem
----------------------------------------------------------------------------------------------------------------------------------------*/
-solve;
-
-/*---------------------------------------------------------------------------------------------------------------------------------------
-Display commands
----------------------------------------------------------------------------------------------------------------------------------------*/
-#These variables might be interest to print. Feel free to choose new ones!
-display E;
-display TLMCond;
-display TLMEvapHP;
-display Qevap;
-display Qcond;
-display COP;
-display MassEPFL;
-display Flow;
-display Qheating;
-
-display OPEX;
-
-
+subject to roof_cstr:
+	roofArea >= usedroofArea;

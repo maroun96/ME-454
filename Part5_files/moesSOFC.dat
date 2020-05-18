@@ -1,49 +1,25 @@
 /*---------------------------------------------------------------------------------------------------------------------------------------
-Load the main model and its data
+Set the maximum scaling factor
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-reset;
-model NLP_DC.mod;
-data NLP_DC.dat;
-
+let  Fmax['SOFC'] := 5;
 /*---------------------------------------------------------------------------------------------------------------------------------------
-AMPL options
+Set the minimum temperature of the boiler
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-/*option solver './snopt';*/
-option solver baron;
-#option omit_zero_rows 1;
-#option omit_zero_cols 1;
-#option presolve_eps 8.53e-15;
-
+let Tminheating['SOFC'] := 800;
 /*---------------------------------------------------------------------------------------------------------------------------------------
-Solve the problem
+Set the reference size of electricity flow (will be scaled with mult_t)
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-solve;
-
+#let Flowout['Electricity', 'SOFC'] := refSize;
 /*---------------------------------------------------------------------------------------------------------------------------------------
-Display commands
+Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-#These variables might be interest to print. Feel free to choose new ones!
-display TC;
+param N_SOFC default 6;
+param IC_SOFC default 0;
 
-display TRadin;
-display TDCout;
-display AHEDC;
-display dTLMDC;
+let IC_SOFC := interest*(interest+1)^N_SOFC/((interest+1)^N_SOFC-1);
 
-display Qrad;
-display E;
-display TLMCond;
-display Qevap;
-display Qcond;
-display COP;
-display MassEPFL;
-display MassDC;
-display Qfree;
-display THPin;
-display Flow;
-display DTmin;
+let cinv1['SOFC'] := 0;			#  [CHF]
+let cinv2['SOFC'] := 10000*IC_SOFC*1000;			# continious investment cost [CHF/kW]
 
-display OPEX;
-display CAPEX;
-
-
+#let cop1t['SOFC'] := 5;			#  [CHF]
+#let cop2t['SOFC'] := 500;			# continious investment cost [CHF/kW]

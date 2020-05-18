@@ -1,49 +1,29 @@
 /*---------------------------------------------------------------------------------------------------------------------------------------
-Load the main model and its data
+Set the maximum scaling factor
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-reset;
-model NLP_DC.mod;
-data NLP_DC.dat;
+let  Fmax['Cogen'] := 5;
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
-AMPL options
+Set the minimum temperature of the boiler
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-/*option solver './snopt';*/
-option solver baron;
-#option omit_zero_rows 1;
-#option omit_zero_cols 1;
-#option presolve_eps 8.53e-15;
+let Tminheating['Cogen'] := 70;
+
+/*Set the reference size of electricity flow (will be scaled with mult_t)
+---------------------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
-Solve the problem
+Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-solve;
+param N_Cogen default 20;
+param IC_Cogen default 0;
+param Fbm_Cogen=3.17; #https://www.researchgate.net/figure/Bare-module-factor-of-various-components-in-the-solar-fuel-plant_tbl1_329840552
 
-/*---------------------------------------------------------------------------------------------------------------------------------------
-Display commands
----------------------------------------------------------------------------------------------------------------------------------------*/
-#These variables might be interest to print. Feel free to choose new ones!
-display TC;
+let IC_Cogen := interest*(interest+1)^N_Cogen/((interest+1)^N_Cogen-1);
+#https://ec.europa.eu/energy/sites/ener/files/documents/Article%2014_1EEDGermanyEN.pdf
+#page 27
 
-display TRadin;
-display TDCout;
-display AHEDC;
-display dTLMDC;
+let cinv1['Cogen'] := 3.5098e+05*IC_Cogen*Fbm_Cogen*(I_2019/I_2014);			#  [CHF/year]
 
-display Qrad;
-display E;
-display TLMCond;
-display Qevap;
-display Qcond;
-display COP;
-display MassEPFL;
-display MassDC;
-display Qfree;
-display THPin;
-display Flow;
-display DTmin;
-
-display OPEX;
-display CAPEX;
+let cinv2['Cogen'] :=725.5099*IC_Cogen*Elec_Cogen*Fbm_Cogen*(I_2019/I_2014);   #[CHF/year]
 
 

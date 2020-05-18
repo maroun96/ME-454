@@ -97,6 +97,7 @@ param Flowin{l in Layers,u in UtilitiesOfLayer[l]} default 0;
 param Flowout{l in Layers,u in UtilitiesOfLayer[l]} default 0;
 param Flowin_hp{l in Layers, u in {"HP1stageLT", "HP1stageMT"}, t in Time} default 0;
 param Flowin_Air_HP{l in Layers, u in {"AirHP"}, t in Time} default 0;
+param Flowin_HP2Stage{l in Layers, u in {"HP2Stage"}, t in Time} default 0;
 
 # minimum and maximum scaling factors of the utilities
 param Fmin{Utilities} default 0.001;
@@ -165,6 +166,8 @@ subject to inflow_cstr2 {l in Layers, u in {"HP1stageLT", "HP1stageMT"}, t in Ti
 	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_hp[l,u,t];
 subject to inflow_cstr3 {l in Layers, u in {"AirHP"}, t in Time}:
 	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_Air_HP[l,u,t];
+subject to inflow_cstr4 {l in Layers, u in {"HP2Stage"}, t in Time}: #TIM 15.05.2020
+	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_HP2Stage[l,u,t];
 	
 subject to outflow_cstr {l in Layers, u in UtilitiesOfLayer[l], t in Time}:
 	FlowOutUnit[l, u, t] = mult_t[u,t] * Flowout[l,u];
@@ -210,6 +213,22 @@ subject to oc_cstr:
 var InvCost;
 subject to ic_cstr:
 	InvCost = sum{tc in Technologies} (cinv1[tc] * use[tc] + cinv2[tc] * mult[tc]);
+	
+# variable and constraint for CO2 emission calculation [kg-CO2/year]
+
+param c_co2{Grids} default 0;									# specific cost of the resource [CHF/kWh], [CHF/kg] or [CHF/m3]
+param co2_em_g{g in Grids} = c_co2[g] * refSize;					# mult_t dependent cost of the reosurce [CHF/h]
+#Check if utilites are in grid and put co2 emission for natural gas and electricity buy
+param co2_em{u in Utilities} = 									# variable cost of the utility [CHF/h]
+	if (exists{g in Grids} (g = u)) then
+		co2_em_g[u]
+	else
+		0
+	;
+
+var CO2_emission;
+subject to co2_emiss:
+	CO2_emission = sum {u in Utilities, t in Time} (co2_em[u] * mult_t[u,t]) * top[t]	;
 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------

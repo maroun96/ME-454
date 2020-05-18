@@ -1,49 +1,28 @@
 /*---------------------------------------------------------------------------------------------------------------------------------------
-Load the main model and its data
+Set the maximum scaling factor
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-reset;
-model NLP_DC.mod;
-data NLP_DC.dat;
+let  Fmax['HP1stageLT'] := 10;
+/*---------------------------------------------------------------------------------------------------------------------------------------
+Set the minimum temperature of the HP
+---------------------------------------------------------------------------------------------------------------------------------------*/
+let Tminheating['HP1stageLT'] := 50;
+/*---------------------------------------------------------------------------------------------------------------------------------------
+Set main function
+---------------------------------------------------------------------------------------------------------------------------------------*/
+param N_HPLT default 20;
+for{t in Time}{
+	let Flowin_hp["Electricity", "HP1stageLT", t] := Qheatingsupply["HP1stageLT"] / COP_HP1stageLT[t];
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
-AMPL options
+Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-/*option solver './snopt';*/
-option solver baron;
-#option omit_zero_rows 1;
-#option omit_zero_cols 1;
-#option presolve_eps 8.53e-15;
+param years_HPLT default 20;
+param IC_HPLT default 0;
+param F_BMHPLT := 4;
 
-/*---------------------------------------------------------------------------------------------------------------------------------------
-Solve the problem
----------------------------------------------------------------------------------------------------------------------------------------*/
-solve;
+let IC_HPLT := interest*(interest+1)^years_HPLT/((interest+1)^years_HPLT-1);
 
-/*---------------------------------------------------------------------------------------------------------------------------------------
-Display commands
----------------------------------------------------------------------------------------------------------------------------------------*/
-#These variables might be interest to print. Feel free to choose new ones!
-display TC;
+let cinv1['HP1stageLT'] := 0.98 * IC_HPLT * 1.4028e+04 * F_BMHPLT * (I_2019/I_2001);				#  [CHF]
 
-display TRadin;
-display TDCout;
-display AHEDC;
-display dTLMDC;
-
-display Qrad;
-display E;
-display TLMCond;
-display Qevap;
-display Qcond;
-display COP;
-display MassEPFL;
-display MassDC;
-display Qfree;
-display THPin;
-display Flow;
-display DTmin;
-
-display OPEX;
-display CAPEX;
-
-
+let cinv2['HP1stageLT'] := 0.98 * IC_HPLT * 310.0724 * 275.7520 * F_BMHPLT * (I_2019/I_2001);			# continious investment cost [CHF/kW]
