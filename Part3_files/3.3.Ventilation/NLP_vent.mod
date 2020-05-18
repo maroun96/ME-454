@@ -98,7 +98,7 @@ subject to Heat_Vent2 {t in Time}: #HEX heat load from the other side;
 		Heat_Vent[t] = sum{b in MediumTempBuildings} FloorArea[b]*mair*Cpair/3600*(Tint-Trelease[t]);	
 
 subject to DTLNVent1 {t in Time}: #DTLN ventilation -> pay attention to this value: why is it special?
-		DTLNVent[t] = (((Tint-Text_new[t])*((Text[t]-Trelease[t])**2)+(Trelease[t]-Text[t])*((Tint-Text_new[t])**2))/2)**(1/3);
+		DTLNVent[t] = (((Tint-Text_new[t])*((Trelease[t]-Text[t])**2)+(Trelease[t]-Text[t])*((Tint-Text_new[t])**2))/2)**(1/3);
 
 subject to Area_Vent1 {t in Time}: #Area of ventilation HEX
 		Area_Vent >= Heat_Vent[t]/(DTLNVent[t]*Uvent);	

@@ -72,6 +72,26 @@ TDCout[t] >= EPFLMediumOut+3;
 
 subject to Tcontrol3 {t in Time}:
 TDCin >= TRadin[t]+3;
+
+#subject to Tcontrol1{t in Time}: 
+#TDCout[t] >= Tret;	
+
+#subject to Tcontrol2{t in Time}: 
+#TDCout[t] >= THPin[t];	
+
+#subject to Tcontrol3{t in Time}: 
+#THPin[t] >= THPhighin;	
+
+#subject to Tcontrol4{t in Time}: 
+#TDCout[t] <= TDCin;	
+
+#subject to Tcontrol5{t in Time}: 
+#TRadin[t] >= EPFLMediumOut;	
+
+#subject to Tcontrol6{t in Time}: 
+#TRadin[t] <= EPFLMediumT;	
+
+
 	 
 ## MASS BALANCE
 
