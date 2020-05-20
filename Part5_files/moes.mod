@@ -95,9 +95,10 @@ param QAirHP{u in {"AirHP"}, t in Time} default 0;
 # reference flow of the resources (elec, natgas etc) [kW] [m3/s] [kg/s]
 param Flowin{l in Layers,u in UtilitiesOfLayer[l]} default 0;
 param Flowout{l in Layers,u in UtilitiesOfLayer[l]} default 0;
+
 param Flowin_hp{l in Layers, u in {"HP1stageLT", "HP1stageMT"}, t in Time} default 0;
 param Flowin_Air_HP{l in Layers, u in {"AirHP"}, t in Time} default 0;
-param Flowin_HP2Stage{l in Layers, u in {"HP2Stage"}, t in Time} default 0;
+param Flowin_HP2stage{l in Layers, u in {"HP2stage"}, t in Time} default 0;
 
 # minimum and maximum scaling factors of the utilities
 param Fmin{Utilities} default 0.001;
@@ -160,14 +161,14 @@ subject to zero_constraint2{t in Time}:
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Resource balance constraints (except for electricity): flowin = flowout
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-subject to inflow_cstr {l in Layers, u in UtilitiesOfLayer[l] diff {"HP1stageLT", "HP1stageMT"}, t in Time}:
+subject to inflow_cstr {l in Layers, u in UtilitiesOfLayer[l] diff {"HP1stageLT", "HP1stageMT", "HP2Stage"}, t in Time}:
 	FlowInUnit[l, u, t] = mult_t[u,t] * Flowin[l,u];
 subject to inflow_cstr2 {l in Layers, u in {"HP1stageLT", "HP1stageMT"}, t in Time}:
 	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_hp[l,u,t];
 subject to inflow_cstr3 {l in Layers, u in {"AirHP"}, t in Time}:
 	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_Air_HP[l,u,t];
-subject to inflow_cstr4 {l in Layers, u in {"HP2Stage"}, t in Time}: #TIM 15.05.2020
-	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_HP2Stage[l,u,t];
+subject to inflow_cstr4 {l in Layers, u in {"HP2stage"}, t in Time}: #TIM 15.05.2020
+	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_HP2stage[l,u,t];
 	
 subject to outflow_cstr {l in Layers, u in UtilitiesOfLayer[l], t in Time}:
 	FlowOutUnit[l, u, t] = mult_t[u,t] * Flowout[l,u];

@@ -20,7 +20,7 @@ param Text := 															# external temperature [C]
 
 param top :=															# operating time of each time step
 1 473
-2 692
+2 693
 3 535
 4 543
 5 6515
