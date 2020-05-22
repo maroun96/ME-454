@@ -111,7 +111,5 @@ comp_cost=10**(k1+log10(W_comp1[12])*k2+k3*(log10(W_comp1[12]))**2)*(index/ref_i
  subject to Error: #calculates the mean square error between carnot factors that needs to be minimized 
 mse=sum {t in Time} (c_factor1[t]-c_factor2[t])**2/12;	
 
-
-
 ################################
 minimize obj : mse; 

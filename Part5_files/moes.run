@@ -133,4 +133,4 @@ display CO2_emission;
 #display carnot_LP;
 #display carnot_HP;
 display COP_LP;
-display COP_HP;
+#display COP_HP;
