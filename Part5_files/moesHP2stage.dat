@@ -20,5 +20,5 @@ param F_BM_HP2stage := 4;																							# Bare module Factor
 #Annualization Factor already included
 let cinv1['HP2stage'] := 6.00*2*IC_HP2stage*0.9*F_BM_HP2stage*(I_2019/I_2001) ;	
 							#  [CHF]
-subject to cinv2_HP2 {t in Time}:
- cinv2['HP2stage'] >= 3.40*2*IC_HP2stage*0.9*Wcompressor_HP2stage[t]*F_BM_HP2stage*(I_2019/I_2001);			# continious investment cost [CHF/kW]
+
+let cinv2['HP2stage'] := 3.40*2*IC_HP2stage*0.9*Wcompressor_HP2stage[6]*F_BM_HP2stage*(I_2019/I_2001);			# continious investment cost [CHF/kW]
