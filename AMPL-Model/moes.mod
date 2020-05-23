@@ -98,6 +98,7 @@ param Flowin{l in Layers,u in UtilitiesOfLayer[l]} default 0;
 param Flowout{l in Layers,u in UtilitiesOfLayer[l]} default 0;
 param Flowin_hp{l in Layers, u in {"HP1stageLT", "HP1stageMT"}, t in Time} default 0;
 param Flowin_Air_HP{l in Layers, u in {"AirHP"}, t in Time} default 0;
+param Flowin_HPDatacenter{l in Layers, u in {"HPDatacenter"}, t in Time} default 0;
 
 # minimum and maximum scaling factors of the utilities
 param Fmin{Utilities} default 0.001;
