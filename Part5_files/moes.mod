@@ -233,13 +233,16 @@ param co2_em{u in Utilities} = 									# variable cost of the utility [CHF/h]
 
 var CO2_emission;
 subject to co2_emiss:
-	CO2_emission = sum {u in Utilities, t in Time} (co2_em[u] * mult_t[u,t]) * top[t]	;
+	CO2_emission = sum {u in Utilities, t in Time} (co2_em[u] * mult_t[u,t]) * top[t];
 
-
+#var natural_gas_buy
+#subject to natural_gas:
+#	natural_gas_buy = sum{t in Time, u = 'NatGasGrid', l = 'NatGasGrid'} FlowOutUnit[l, u, t];
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Objective function
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 #minimize Totalcost:InvCost + OpCost;
 #minimize InvCost:InvCost 
 #minimize OpCost:OpCost
+#minimize Naturalgas:natural_gas_buy
 minimize CO2: CO2_emission;
