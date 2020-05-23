@@ -240,4 +240,6 @@ subject to co2_emiss:
 Objective function
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 #minimize Totalcost:InvCost + OpCost;
+#minimize InvCost:InvCost 
+#minimize OpCost:OpCost
 minimize CO2: CO2_emission;
