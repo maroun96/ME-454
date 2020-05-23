@@ -1,13 +1,13 @@
 let Fmax['AirHP'] := 1;
 
-let Qheatingsupply["AirHP"] := 0;
+let Qheatingsupply["HPDatacenter"] := 0;
 
-let QHPDatacenter["AirHP",1] := 12451.9;
-let QHPDatacenter["AirHP",2] := 6785.64;
-let QHPDatacenter["AirHP",3] := 1222.19
-let QHPDatacenter["AirHP",4] := 1561.1;
-let QHPDatacenter["AirHP",5] := 0.01;
-let QHPDatacenter["AirHP",6] := 26232.8;
+let QHPDatacenter["HPDatacenter",1] := 12451.9;
+let QHPDatacenter["HPDatacenter",2] := 6785.64;
+let QHPDatacenter["HPDatacenter",3] := 1222.19
+let QHPDatacenter["HPDatacenter",4] := 1561.1;
+let QHPDatacenter["HPDatacenter",5] := 0.01;
+let QHPDatacenter["HPDatacenter",6] := 26232.8;
 
 
 param EHPDatacenter{t in Time} default 0;
@@ -22,9 +22,9 @@ let EHPDatacenter[6] := 6221.17;
 
 
 for{t in Time}{
-	let Flowin_HPDatacenter["Electricity", "AirHP", t] := EHPDatacenter[t];
+	let Flowin_HPDatacenter["Electricity", "HPDatacenter", t] := EHPDatacenter[t];
 }
 
 
-let cinv1['AirHP']:= 549593;
-let cinv2['AirHP']:=0;
+let cinv1['HPDatacenter']:= 549593;
+let cinv2['HPDatacenter']:=0;
