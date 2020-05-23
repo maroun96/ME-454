@@ -235,7 +235,7 @@ var CO2_emission;
 subject to co2_emiss:
 	CO2_emission = sum {u in Utilities, t in Time} (co2_em[u] * mult_t[u,t]) * top[t];
 
-#var natural_gas_buy
+#var natural_gas_buy;
 #subject to natural_gas:
 #	natural_gas_buy = sum{l in Layers, t in Time, u = 'NatGasGrid'} FlowOutUnit[l, u, t];
 /*---------------------------------------------------------------------------------------------------------------------------------------
