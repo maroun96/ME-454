@@ -237,7 +237,7 @@ subject to co2_emiss:
 
 #var natural_gas_buy
 #subject to natural_gas:
-#	natural_gas_buy = sum{t in Time, u = 'NatGasGrid'} FlowOutUnit[l, u, t];
+#	natural_gas_buy = sum{l in Layers, t in Time, u = 'NatGasGrid'} FlowOutUnit[l, u, t];
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Objective function
 ---------------------------------------------------------------------------------------------------------------------------------------*/
