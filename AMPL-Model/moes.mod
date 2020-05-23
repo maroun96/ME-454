@@ -166,7 +166,7 @@ subject to inflow_cstr2 {l in Layers, u in {"HP1stageLT", "HP1stageMT"}, t in Ti
 subject to inflow_cstr3 {l in Layers, u in {"AirHP"}, t in Time}:
 	FlowInUnit[l,u,t] = use_t[u,t] * Flowin_Air_HP[l,u,t];
 subject to inflow_cstr4 {l in Layers, u in {"HPDatacenter"}, t in Time}:
-	FlowInUnit[l,u,t] = use_t[u,t] * Flowin_HPDatacenter;
+	FlowInUnit[l,u,t] = use_t[u,t] * Flowin_HPDatacenter[l,u,t];
 	
 subject to outflow_cstr {l in Layers, u in UtilitiesOfLayer[l], t in Time}:
 	FlowOutUnit[l, u, t] = mult_t[u,t] * Flowout[l,u];
