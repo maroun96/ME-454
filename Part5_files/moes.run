@@ -131,6 +131,10 @@ display use;
 #display cinv1;
 #display cinv2;
 
+display TotalImport;
+
+display TotalCost;
+
 display CO2_emission;
 #display carnot_LP;
 #display carnot_HP;

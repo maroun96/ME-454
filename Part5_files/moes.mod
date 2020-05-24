@@ -219,6 +219,13 @@ var InvCost;
 subject to ic_cstr:
 	InvCost = sum{tc in Technologies} (cinv1[tc] * use[tc] + cinv2[tc] * mult[tc]);
 	
+# variable and constraint for investment cost calculation [CHF/year]
+var TotalCost;
+subject to tc_cstr1:
+	TotalCost = OpCost+InvCost;	
+subject to tc_cstr2:
+	TotalCost = 277000000;	
+		
 # variable and constraint for CO2 emission calculation [kg-CO2/year]
 
 param c_co2{Grids} default 0;									# specific cost of the resource [CHF/kWh], [CHF/kg] or [CHF/m3]
@@ -235,14 +242,25 @@ var CO2_emission;
 subject to co2_emiss:
 	CO2_emission = sum {u in Utilities, t in Time} (co2_em[u] * mult_t[u,t]) * top[t];
 
-#var natural_gas_buy;
-#subject to natural_gas:
-#	natural_gas_buy = sum{l in Layers, t in Time, u in {"NatGasGrid"}}  FlowOutUnit[l, u, t];
+# variable and constraint for importing of the resources from the grid  [CHF/year]
+
+var natural_gas_buy;
+subject to natural_gas_imp:
+natural_gas_buy = sum{l in Layers, t in Time, u in {"NatGasGrid"}}  FlowOutUnit[l, u, t];
+
+var electricity_buy;
+subject to electricity_imp:
+electricity_buy = sum{l in Layers, t in Time, u in {"ElecGridBuy"}}  FlowOutUnit[l, u, t];
+
+var TotalImport;
+subject to im_cstr:
+	TotalImport = natural_gas_buy+electricity_buy;	
+
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Objective function
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-#minimize Totalcost:InvCost + OpCost;
+#minimize TotCost:TotalCost;
 #minimize InvCost:InvCost; 
 #minimize OpCost:OpCost;
-#minimize Naturalgas:natural_gas_buy;
-minimize CO2: CO2_emission;
+minimize ImportEnergy:TotalImport;
+#minimize CO2: CO2_emission;
