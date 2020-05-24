@@ -71,6 +71,8 @@ data moesHP1stageMT.dat;
 
 data moesAirHP.dat;
 
+data moesHPDatacenter.dat;
+
 
 
 
@@ -123,9 +125,14 @@ display OpCost;
 
 display use;
 
-display Fmax;
-display Fmin;
-display Qheatingsupply;
-display cinv1;
-display cinv2;
+#display Fmax;
+#display Fmin;
+#display Qheatingsupply;
+#display cinv1;
+#display cinv2;
+
 display CO2_emission;
+#display carnot_LP;
+#display carnot_HP;
+display COP_LP;
+#display COP_HP;

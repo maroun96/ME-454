@@ -91,13 +91,16 @@ param Tminheating{UtilitiesOfType['Heating']} default 0;
 # reference flow of the heating and cooling [kW]
 param Qheatingsupply{UtilitiesOfType['Heating']} default 1000;
 param QAirHP{u in {"AirHP"}, t in Time} default 0;
+param QHPDatacenter{u in {"HPDatacenter"}, t in Time} default 0;
 
 # reference flow of the resources (elec, natgas etc) [kW] [m3/s] [kg/s]
 param Flowin{l in Layers,u in UtilitiesOfLayer[l]} default 0;
 param Flowout{l in Layers,u in UtilitiesOfLayer[l]} default 0;
+
 param Flowin_hp{l in Layers, u in {"HP1stageLT", "HP1stageMT"}, t in Time} default 0;
 param Flowin_Air_HP{l in Layers, u in {"AirHP"}, t in Time} default 0;
-param Flowin_HP2Stage{l in Layers, u in {"HP2Stage"}, t in Time} default 0;
+param Flowin_HPDatacenter{l in Layers, u in {"HPDatacenter"}, t in Time} default 0;
+param Flowin_HP2stage{l in Layers, u in {"HP2stage"}, t in Time} default 0;
 
 # minimum and maximum scaling factors of the utilities
 param Fmin{Utilities} default 0.001;
@@ -149,7 +152,7 @@ var mult_heating_t{UtilitiesOfType['Heating'], Time, HeatingLevel} >= 0;
 subject to LT_balance{t in Time}:
 	Qheatingdemand['LowT',t] = sum{u in UtilitiesOfType['Heating']: Tminheating[u] >= Theating['LowT'] + dTmin} (Qheatingsupply[u] * mult_heating_t[u,t,'LowT']);
 subject to MT_balance{t in Time}:
-	Qheatingdemand['MediumT',t] = sum{u in UtilitiesOfType['Heating']: Tminheating[u] >= Theating['MediumT'] + dTmin} (Qheatingsupply[u] * mult_heating_t[u,t,'MediumT']) + QAirHP["AirHP",t]*mult_t["AirHP",t];
+	Qheatingdemand['MediumT',t] = sum{u in UtilitiesOfType['Heating']: Tminheating[u] >= Theating['MediumT'] + dTmin} (Qheatingsupply[u] * mult_heating_t[u,t,'MediumT']) + QAirHP["AirHP",t]*mult_t["AirHP",t]+ QHPDatacenter["HPDatacenter",t]*mult_t["HPDatacenter",t];
 subject to heating_mult_cstr{u in UtilitiesOfType['Heating'], t in Time}:
 	mult_t[u,t] = sum{h in HeatingLevel} mult_heating_t[u,t,h];
 subject to zero_constraint1{t in Time}:
@@ -160,14 +163,16 @@ subject to zero_constraint2{t in Time}:
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Resource balance constraints (except for electricity): flowin = flowout
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-subject to inflow_cstr {l in Layers, u in UtilitiesOfLayer[l] diff {"HP1stageLT", "HP1stageMT"}, t in Time}:
+subject to inflow_cstr {l in Layers, u in UtilitiesOfLayer[l] diff {"HP1stageLT", "HP1stageMT","AirHP","HPDatacenter", "HP2stage"}, t in Time}:
 	FlowInUnit[l, u, t] = mult_t[u,t] * Flowin[l,u];
 subject to inflow_cstr2 {l in Layers, u in {"HP1stageLT", "HP1stageMT"}, t in Time}:
 	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_hp[l,u,t];
 subject to inflow_cstr3 {l in Layers, u in {"AirHP"}, t in Time}:
 	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_Air_HP[l,u,t];
-subject to inflow_cstr4 {l in Layers, u in {"HP2Stage"}, t in Time}: #TIM 15.05.2020
-	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_HP2Stage[l,u,t];
+subject to inflow_cstr4 {l in Layers, u in {"HPDatacenter"}, t in Time}:
+	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_HPDatacenter[l,u,t];	
+subject to inflow_cstr5 {l in Layers, u in {"HP2stage"}, t in Time}: #TIM 15.05.2020
+	FlowInUnit[l,u,t] = mult_t[u,t] * Flowin_HP2stage[l,u,t];
 	
 subject to outflow_cstr {l in Layers, u in UtilitiesOfLayer[l], t in Time}:
 	FlowOutUnit[l, u, t] = mult_t[u,t] * Flowout[l,u];
@@ -228,10 +233,16 @@ param co2_em{u in Utilities} = 									# variable cost of the utility [CHF/h]
 
 var CO2_emission;
 subject to co2_emiss:
-	CO2_emission = sum {u in Utilities, t in Time} (co2_em[u] * mult_t[u,t]) * top[t]	;
+	CO2_emission = sum {u in Utilities, t in Time} (co2_em[u] * mult_t[u,t]) * top[t];
 
-
+#var natural_gas_buy;
+#subject to natural_gas:
+#	natural_gas_buy = sum{l in Layers, t in Time, u in {"NatGasGrid"}}  FlowOutUnit[l, u, t];
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Objective function
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-minimize Totalcost:InvCost + OpCost;
+#minimize Totalcost:InvCost + OpCost;
+#minimize InvCost:InvCost; 
+#minimize OpCost:OpCost;
+#minimize Naturalgas:natural_gas_buy;
+minimize CO2: CO2_emission;
