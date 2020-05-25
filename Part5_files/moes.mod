@@ -254,7 +254,7 @@ electricity_buy = sum{l in Layers, t in Time, u in {"ElecGridBuy"}}  FlowOutUnit
 
 var TotalImport;
 subject to im_cstr:
-	TotalImport = natural_gas_buy+electricity_buy;% cost CHF
+	TotalImport = natural_gas_buy+electricity_buy;# cost CHF
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Objective function
