@@ -1,0 +1,30 @@
+let Fmax['Air'] := 1;
+
+let Qheatingsupply["Air"] := 0;
+
+let QAir["Air",1] := 12451.9;
+let QAir["Air",2] := 6785.64;
+let QAir["Air",3] := 1222.19;
+let QAir["Air",4] := 1561.1;
+let QAir["Air",5] := 0;
+let QAir["Air",6] := 26232.8;
+
+
+param EAir{t in Time} default 0;
+
+let EAir[1] := 2981.56;
+let EAir[2] := 1624.8;
+let EAir[3] := 292.65;
+let EAir[4] := 373.798;
+let EAir[5] := 0;
+let EAir[6] := 6281.34;
+
+
+for{t in Time}{
+	let Flowin_Air["Electricity", "Air", t] := EAir[t];
+}
+
+
+let cinv1['Air']:=580429.0795;
+let cinv2['Air']:=0;
+

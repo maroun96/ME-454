@@ -32,6 +32,7 @@ Cogen
 HPDatacenter
 HPWaste
 AirHP
+Air
 ;
 
 set Grids :=															# set of grid units
@@ -68,6 +69,7 @@ Cogen
 HPDatacenter
 HPWaste
 AirHP
+Air
 ;
 
 set UtilitiesOfType[ElectricitySup] :=
@@ -86,6 +88,7 @@ HPDatacenter
 HPWaste
 ElecGridSell
 AirHP
+Air
 ;
 
 set UtilitiesOfLayer[Electricity] :=
@@ -102,6 +105,7 @@ ElecGridBuy
 ElecGridSell
 Boiler
 AirHP
+Air
 ;
 
 set UtilitiesOfLayer[Natgas] :=
@@ -170,14 +174,14 @@ Boiler 120
 ;
 
 param c_spec :=															# specific cost of resources
-NatGasGrid 0.0303
-ElecGridBuy 0.0916
-ElecGridSell -0.06
+NatGasGrid    0.041511 #0.0303
+ElecGridBuy   0.125492 #0.0916
+ElecGridSell -0.0822   #-0.06
 ;
 
 param c_co2 :=
-NatGasGrid 0.2
-ElecGridBuy 0.129
-ElecGridSell 0
+NatGasGrid    0.2
+ElecGridBuy   0.129
+ElecGridSell  0
 ;
 end;
