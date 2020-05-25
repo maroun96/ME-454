@@ -246,15 +246,15 @@ subject to co2_emiss:
 
 var natural_gas_buy;
 subject to natural_gas_imp:
-natural_gas_buy = sum{l in Layers, t in Time, u in {"NatGasGrid"}}  FlowOutUnit[l, u, t];
+natural_gas_buy = sum{l in Layers, t in Time, u in {"NatGasGrid"}}  FlowOutUnit[l, u, t]*cop2g[u];
 
 var electricity_buy;
 subject to electricity_imp:
-electricity_buy = sum{l in Layers, t in Time, u in {"ElecGridBuy"}}  FlowOutUnit[l, u, t];
+electricity_buy = sum{l in Layers, t in Time, u in {"ElecGridBuy"}}  FlowOutUnit[l, u, t]*cop2g[u];
 
 var TotalImport;
 subject to im_cstr:
-	TotalImport = natural_gas_buy+electricity_buy;	
+	TotalImport = natural_gas_buy+electricity_buy;% cost CHF
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Objective function
