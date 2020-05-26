@@ -104,20 +104,20 @@ solve;
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Display commands
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-display Edemand;
-display Qheating;
-display Qheatingdemand;
+#display Edemand;
+#display Qheating;
+#display Qheatingdemand;
 
-display mult;
-display mult_t;
+#display mult;
+#display mult_t;
 
-display Flowin;
-display Flowout;
+#display Flowin;
+#display Flowout;
 
-display FlowInUnit;
-display FlowOutUnit;
+#display FlowInUnit;
+#display FlowOutUnit;
 
-display Buildings;
+#display Buildings;
 
 #display usedroofArea;
 
@@ -140,5 +140,5 @@ display TotalCost;
 display CO2_emission;
 #display carnot_LP;
 #display carnot_HP;
-display COP_LP;
+#display COP_LP;
 #display COP_HP;

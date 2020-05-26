@@ -227,8 +227,8 @@ subject to ic_cstr:
 var TotalCost;
 subject to tc_cstr1:
 	TotalCost = OpCost+InvCost;	
-subject to tc_cstr2:
-	TotalCost = 209000000;	
+#subject to tc_cstr2:
+#	TotalCost = 209000000;	
 		
 # variable and constraint for CO2 emission calculation [kg-CO2/year]
 
@@ -266,7 +266,8 @@ subject to im_cstr1:
 Objective function
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 #minimize TotCost:TotalCost;
-#minimize InvCost:InvCost; 
-#minimize OpCost:OpCost;
-#minimize ImportEnergy:TotalImport;
-minimize CO2: CO2_emission;
+#minimize In:InvCost; 
+minimize Ope:OpCost;
+#minimize IM:TotalImport;
+#minimize CO2: CO2_emission;
+#minimize NG: natural_gas_buy;
