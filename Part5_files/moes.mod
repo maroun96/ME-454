@@ -250,11 +250,11 @@ subject to co2_emiss:
 
 var natural_gas_buy;
 subject to natural_gas_imp:
-natural_gas_buy = sum{l in Layers, t in Time, u in {"NatGasGrid"}}  FlowOutUnit[l, u, t]*cop2g[u];
+natural_gas_buy = sum{l in Layers, t in Time, u in {"NatGasGrid"}}  FlowOutUnit[l, u, t]*cop2g[u]*top[t];
 
 var electricity_buy;
 subject to electricity_imp:
-electricity_buy = sum{l in Layers, t in Time, u in {"ElecGridBuy"}}  FlowOutUnit[l, u, t]*cop2g[u];
+electricity_buy = sum{l in Layers, t in Time, u in {"ElecGridBuy"}}  FlowOutUnit[l, u, t]*cop2g[u]*top[t];
 
 var TotalImport;
 subject to im_cstr1:
