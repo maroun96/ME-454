@@ -219,4 +219,9 @@ subject to ic_cstr:
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Objective function
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-minimize Totalcost:InvCost + OpCost;
+#minimize Totalcost:InvCost + OpCost;
+#minimize Totalcost:InvCost;
+#minimize Totalcost: OpCost;
+minimize natural_gas_buy;
+#minimize CO2_emission;
+#minimize TotalImport

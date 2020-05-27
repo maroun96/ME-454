@@ -216,7 +216,13 @@ param cinv2{t in Technologies} default 0;						# variable investment cost of the
 # variable and constraint for operating cost calculation [CHF/year]
 var OpCost;
 subject to oc_cstr:
-	OpCost = sum {u in Utilities, t in Time} (cop1[u] * use_t[u,t] + cop2[u] * mult_t[u,t]) * top[t];
+
+	OpCost = sum {u in Utilities, t in Time} (cop1[u] * use_t[u,t] + cop2[u] * mult_t[u,t]) * top[t]	;
+
+# variable and constraint for investment cost calculation [CHF/year]
+var InvCost;
+subject to ic_cstr:
+	InvCost = sum{tc in Technologies} (cinv1[tc] * use[tc] + cinv2[tc] * mult[tc]);
 		
 # variable and constraint for CO2 emission calculation [kg-CO2/year]
 
@@ -248,13 +254,13 @@ subject to tc_cstr1:
 
 # variable and constraint for importing of the resources from the grid  [CHF/year]
 
-#var natural_gas_buy;
-#subject to natural_gas_imp:
-#natural_gas_buy = sum{l in Layers, t in Time, u in {"NatGasGrid"}}  FlowOutUnit[l, u, t]*cop2g[u];
+var natural_gas_buy;
+subject to natural_gas_imp:
+natural_gas_buy = sum{t in Time, u in {"NatGasGrid"}}  mult_t[u,t]*cop2g[u]*top[t];
 
-#var electricity_buy;
-#subject to electricity_imp:
-#electricity_buy = sum{l in Layers, t in Time, u in {"ElecGridBuy"}}  FlowOutUnit[l, u, t]*cop2g[u];
+var electricity_buy;
+subject to electricity_imp:
+electricity_buy = sum{t in Time, u in {"ElecGridBuy"}}  mult_t[u,t]*cop2g[u]*top[t];
 
 #var TotalImport;
 #subject to im_cstr1:
@@ -265,8 +271,10 @@ subject to tc_cstr1:
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Objective function
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-minimize TotCost:TotalCost;
-#minimize InvCost:InvCost; 
-#minimize OpCost:OpCost;
-#minimize ImportEnergy:TotalImport;
+
+#minimize TotCost:TotalCost;
+#minimize In:InvCost; 
+minimize Ope:OpCost;
+#minimize IM:TotalImport;
 #minimize CO2: CO2_emission;
+#minimize NG: natural_gas_buy;
