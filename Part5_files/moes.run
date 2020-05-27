@@ -133,7 +133,7 @@ display use;
 #display cinv1;
 #display cinv2;
 
-display TotalImport;
+#display TotalImport;
 
 display TotalCost;
 
