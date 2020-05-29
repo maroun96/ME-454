@@ -241,16 +241,16 @@ subject to co2_emiss:
 	CO2_emission = sum {u in Utilities, t in Time} (co2_em[u] * mult_t[u,t]) * top[t];
 	
 # variable and constraint for investment cost calculation [CHF/year]
-var InvCost;
-subject to ic_cstr:
-	InvCost = sum{tc in Technologies} (cinv1[tc] * use[tc] + cinv2[tc] * mult[tc]);#+CO2_emission*0.096);
+#var InvCost;
+#subject to ic_cstr:
+#	InvCost = sum{tc in Technologies} (cinv1[tc] * use[tc] + cinv2[tc] * mult[tc]);#+CO2_emission*0.096);
 	
 # variable and constraint for investment cost calculation [CHF/year]
 var TotalCost;
 subject to tc_cstr1:
 	TotalCost = OpCost+InvCost;	
 #subject to tc_cstr2:
-#	TotalCost = 200000000;	
+#	TotalCost = e6;	
 
 # variable and constraint for importing of the resources from the grid  [CHF/year]
 
@@ -274,7 +274,7 @@ Objective function
 
 #minimize TotCost:TotalCost;
 #minimize In:InvCost; 
-minimize Ope:OpCost;
+#minimize Ope:OpCost;
 #minimize IM:TotalImport;
-#minimize CO2: CO2_emission;
+minimize CO2: CO2_emission;
 #minimize NG: natural_gas_buy;

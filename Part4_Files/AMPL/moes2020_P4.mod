@@ -32,7 +32,7 @@ param k1_HEX			:= 4.1884; 	#parameter for HEX cost function
 param k2_HEX	 	 	:=-0.2503;	#parameter for HEX cost function
 param k3_HEX  			:=0.1974;	#parameter for HEX cost function
 
-param f_BM 				:= 4; 	# bare module factor for compressor (CS) 
+param f_BM 				:= 2.7; 	# bare module factor for compressor (CS) 
 param f_BM_HEX			:= 4.74 ; 	# bare module factor for HEX (From project description Part3)
 
 param ref_index 		:= 394.3; 	# CEPCI reference 2001 

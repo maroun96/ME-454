@@ -17,7 +17,7 @@ Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 param years_HPMT default 20;
 param IC_HPMT default 0;
-param F_BMHPMT := 4;
+param F_BMHPMT := 2.7;
 
 let IC_HPMT := interest*(IC_HPMT+1)^years_HPMT/((interest+1)^years_HPMT-1);
 
