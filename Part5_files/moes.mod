@@ -273,9 +273,9 @@ electricity_buy = sum{t in Time, u in {"ElecGridBuy"}}  mult_t[u,t]*cop2g[u]*top
 Objective function
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 
-minimize TotCost:TotalCost;
+#minimize TotCost:TotalCost;
 #minimize In:InvCost; 
 #minimize Ope:OpCost;
 #minimize IM:TotalImport;
-#minimize CO2: CO2_emission;
+minimize CO2: CO2_emission;
 #minimize NG: natural_gas_buy;

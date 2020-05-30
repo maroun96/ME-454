@@ -138,9 +138,10 @@ display cinv2;
 display TotalCost;
 
 display CO2_emission;
-display carnot_LP;
+
+/*display carnot_LP;
 display carnot_HP;
 display COP_LP;
 display COP_HP;
 display Wcompressor_HP2stage_LP;
-display Wcompressor_HP2stage_HP;
+display Wcompressor_HP2stage_HP;*/
