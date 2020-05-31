@@ -13,5 +13,5 @@ param Elec_Boiler:=Qheatingsupply['Boiler']/eff_th_Boiler*eff_el_Boiler;
 Set flow rate of natural gas as a function of efficiency
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 let Flowin['Natgas','Boiler'] := Qheatingsupply['Boiler'] / eff_th_Boiler; 
-let Flowout['Electricity','Boiler'] := Flowin['Natgas','Boiler'] * eff_el_Boiler; 
+#let Flowout['Electricity','Boiler'] := Flowin['Natgas','Boiler'] * eff_el_Boiler; 
 

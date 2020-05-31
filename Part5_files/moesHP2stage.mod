@@ -21,9 +21,14 @@ param carnot_HP{t in Time} := a_HP*Text[t]^2-b_HP*Text[t]+c_HP;
 Set the COP of the Two Stage Heat Pump
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 param T_source_HP=293.15; #Assumption
+param T_epfl_low = 22;
+param T_medium_in = 36;
 	
-param COP_LP{t in Time} := carnot_LP[t]*(Theating['LowT']+273.15)/(Theating['LowT']+273.15-T_lake[t]);
-param COP_HP{t in Time} := carnot_HP[t]*(Theating['MediumT']+273.15)/(Theating['MediumT']+273.15-T_source_HP);
+#param COP_LP{t in Time} := carnot_LP[t]*(Theating['LowT']+273.15)/(Theating['LowT']+273.15-T_lake[t]);
+#param COP_HP{t in Time} := carnot_HP[t]*(Theating['MediumT']+273.15)/(Theating['MediumT']+273.15-T_source_HP);
+
+param COP_LP{t in Time} := carnot_LP[t]*(T_epfl_low+273.15)/(T_epfl_low+273.15-T_lake[t]);
+param COP_HP{t in Time} := carnot_HP[t]*(T_medium_in+273.15)/(T_medium_in+273.15-T_source_HP);
 /*---------------------------------------------------------------------------------------------------------------------------------------
 Set flow rate of Electriciy as a function of the COP
 ---------------------------------------------------------------------------------------------------------------------------------------*/

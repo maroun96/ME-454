@@ -53,6 +53,7 @@ display Cond_area;
 display DTlnCond;
 display T_cond;
 display T_hp_4;
+display T_medium_in;
 */
 
 #for low pressure stage: 

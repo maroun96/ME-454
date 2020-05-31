@@ -15,13 +15,15 @@ Set cost parameter
 param N_HP2stage default 20;																					# Numbre of years
 param IC_HP2stage default 0;				
 let IC_HP2stage := ((1+interest)^N_HP2stage - 1)/(interest*(interest+1)^N_HP2stage);							# Annualisation Factor
-param F_BM_HP2stage := 4;																							# Bare module Factor
+param F_BM_HP2stage := 2.7;																							# Bare module Factor
 
 #Cost of the two compressors
-#Linearized around the extreme values of the power from Part 4 :
-	 #650kW for HP Loop (W_comp2)
-	 #590kW for LP (W_comp1)
-let cinv1['HP2stage'] :=  (4.3748e+04 + 3.8926e+04)*IC_HP2stage*0.9*F_BM_HP2stage*(I_2019/I_2001) ;	
+#Linearized around the extreme values of the power
+	 #1500kW for HP Loop
+	 #4000kW for LP Loop
+#let cinv1['HP2stage'] :=  (2.7327e+05 + 1.0960e+05)*IC_HP2stage*0.98*F_BM_HP2stage*(I_2019/I_2001) ;	
 							
+#let cinv2['HP2stage'] := IC_HP2stage*0.98*( 177.1842*Wcompressor_HP2stage_HP[6]+  111.7210*Wcompressor_HP2stage_LP[6])*F_BM_HP2stage*(I_2019/I_2001);			# continious investment cost [CHF/kW]
 
-let cinv2['HP2stage'] := IC_HP2stage*0.9*( 242.3389*Wcompressor_HP2stage_HP[6]+  250.1227*Wcompressor_HP2stage_LP[6])*F_BM_HP2stage*(I_2019/I_2001);			# continious investment cost [CHF/kW]
+let cinv1['HP2stage'] := 734300+727642+ 681127 + 1141290;
+let cinv2['HP2stage'] :=0;

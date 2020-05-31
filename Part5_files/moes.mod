@@ -212,12 +212,6 @@ param cop2{u in Utilities} = 									# variable cost of the utility [CHF/h]
 	;
 param cinv1{t in Technologies} default 0;						# fixed investment cost of the utility [CHF/year]
 param cinv2{t in Technologies} default 0;						# variable investment cost of the utility [CHF/year]
-
-# variable and constraint for operating cost calculation [CHF/year]
-var OpCost;
-subject to oc_cstr:
-
-	OpCost = sum {u in Utilities, t in Time} (cop1[u] * use_t[u,t] + cop2[u] * mult_t[u,t]) * top[t]	;
 		
 # variable and constraint for CO2 emission calculation [kg-CO2/year]
 
@@ -235,17 +229,29 @@ var CO2_emission;
 subject to co2_emiss:
 	CO2_emission = sum {u in Utilities, t in Time} (co2_em[u] * mult_t[u,t]) * top[t];
 	
+	
+# variable and constraint for operating cost calculation [CHF/year]
+var OpCost;
+subject to oc_cstr:
+
+	OpCost = sum {u in Utilities, t in Time} (cop1[u] * use_t[u,t] + cop2[u] * mult_t[u,t]) * top[t]	;
+
 # variable and constraint for investment cost calculation [CHF/year]
 var InvCost;
 subject to ic_cstr:
-	InvCost = sum{tc in Technologies} (cinv1[tc] * use[tc] + cinv2[tc] * mult[tc]+CO2_emission*0.0583);
+	InvCost = sum{tc in Technologies} (cinv1[tc] * use[tc] + cinv2[tc] * mult[tc]);
+	
+var CO2_tax;
+subject to tCO2_cstr : 
+	CO2_tax = CO2_emission*0.096;
 	
 # variable and constraint for investment cost calculation [CHF/year]
 var TotalCost;
 subject to tc_cstr1:
-	TotalCost = OpCost+InvCost;	
-#subject to tc_cstr2:
-#	TotalCost = 190000000;	
+	TotalCost = OpCost+InvCost; #+CO2_tax;	
+subject to tc_cstr2:
+	TotalCost = 5900000;	
+
 
 # variable and constraint for importing of the resources from the grid  [CHF/year]
 
@@ -267,9 +273,9 @@ electricity_buy = sum{t in Time, u in {"ElecGridBuy"}}  mult_t[u,t]*cop2g[u]*top
 Objective function
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 
-minimize TotCost:TotalCost;
+#minimize TotCost:TotalCost;
 #minimize In:InvCost; 
 #minimize Ope:OpCost;
 #minimize IM:TotalImport;
-#minimize CO2: CO2_emission;
+minimize CO2: CO2_emission;
 #minimize NG: natural_gas_buy;

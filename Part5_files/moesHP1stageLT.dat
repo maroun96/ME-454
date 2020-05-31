@@ -19,7 +19,7 @@ Set cost parameter
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 param years_HPLT default 20;
 param IC_HPLT default 0;
-param F_BMHPLT := 4;
+param F_BMHPLT := 2.7;
 
 let IC_HPLT := interest*(interest+1)^years_HPLT/((interest+1)^years_HPLT-1);
 
