@@ -109,7 +109,7 @@ Display commands
 #display Qheatingdemand;
 
 #display mult;
-#display mult_t;
+display mult_t;
 
 #display Flowin;
 #display Flowout;
@@ -142,3 +142,4 @@ display CO2_emission;
 #display carnot_HP;
 #display COP_LP;
 #display COP_HP;
+
