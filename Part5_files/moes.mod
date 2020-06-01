@@ -243,14 +243,14 @@ subject to ic_cstr:
 	
 var CO2_tax;
 subject to tCO2_cstr : 
-	CO2_tax = CO2_emission*0.096;
+	CO2_tax = CO2_emission*0.0318;
 	
 # variable and constraint for investment cost calculation [CHF/year]
 var TotalCost;
 subject to tc_cstr1:
-	TotalCost = OpCost+InvCost; #+CO2_tax;	
+	TotalCost = OpCost+InvCost+CO2_tax;	
 subject to tc_cstr2:
-	TotalCost = 5900000;	
+	TotalCost = 40000000;	
 
 
 # variable and constraint for importing of the resources from the grid  [CHF/year]

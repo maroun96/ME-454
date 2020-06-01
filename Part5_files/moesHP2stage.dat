@@ -23,7 +23,7 @@ param F_BM_HP2stage := 2.7;																							# Bare module Factor
 	 #4000kW for LP Loop
 #let cinv1['HP2stage'] :=  (2.7327e+05 + 1.0960e+05)*IC_HP2stage*0.98*F_BM_HP2stage*(I_2019/I_2001) ;	
 							
-#let cinv2['HP2stage'] := IC_HP2stage*0.98*( 177.1842*Wcompressor_HP2stage_HP[6]+  111.7210*Wcompressor_HP2stage_LP[6])*F_BM_HP2stage*(I_2019/I_2001);			# continious investment cost [CHF/kW]
+let cinv2['HP2stage'] := IC_HP2stage*0.98*( 177.1842*Wcompressor_HP2stage_HP[6]+  111.7210*Wcompressor_HP2stage_LP[6])*F_BM_HP2stage*(I_2019/I_2001);			# continious investment cost [CHF/kW]
 
 let cinv1['HP2stage'] := 734300+727642+ 681127 + 1141290;
-let cinv2['HP2stage'] :=0;
+#let cinv2['HP2stage'] := 100000 * Wcompressor_HP2stage_LP[6];
